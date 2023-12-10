@@ -1,0 +1,27 @@
+/* 
+    list.scss
+*/
+.list {
+  margin: 0;
+  padding: 0;
+  margin-top: 2rem;
+}
+.list__item {
+  display: inline;
+  margin: 0 1.5rem;
+}
+.list__item--logo {
+  position: absolute;
+  left: 3rem;
+  top: 1.5rem;
+}
+.list__item--right {
+  position: absolute;
+  right: 10rem;
+  margin-right: 1rem;
+}
+.list__item--icon {
+  position: absolute;
+  right: 3rem;
+  top: 2.5rem;
+}/*# sourceMappingURL=list.css.map */
