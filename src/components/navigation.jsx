@@ -16,13 +16,13 @@ function Navigation() {
               </li>
 
               <li className="list__item">
-                <a className="button" href={`/home`}>Home</a>
+                <a className="button" href={`/home`}>HOME</a>
               </li>
               <li className="list__item">
-                <a className="button" href={`/shop`}>Shop</a>
+                <a className="button" href={`/shop`}>SHOP</a>
               </li>
               <li className="list__item">
-                <a className="button" href={`/about`}>About</a>
+                <a className="button" href={`/about`}>ABOUT</a>
               </li>
               <li className="list__item list__item--right">
                 <a className="button button--right" href={`/contact`}>Contact Us</a>
