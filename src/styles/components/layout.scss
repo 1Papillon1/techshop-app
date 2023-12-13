@@ -2,12 +2,12 @@
     layout.scss
 */
 
-$mainColor: #303030;
+$mainColor: #262626;
 
 .layout {
-    background-color: #303030;
+    background-color: $mainColor;
     margin: 1.5vh 0.5vw;
-    width: 99vw;
+    width: 98vw;
     border-radius: 5px;
-    height: 50rem;
+    height: 60rem;
 }

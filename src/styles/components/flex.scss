@@ -1,0 +1,41 @@
+/* 
+    flex.scss
+*/
+
+$mainColor: #262626;
+$fontColorPrimary : #FFFFFF;
+$fontColorSecondary : #999999;
+
+.flex {
+    display: flex;
+    justify-content: space-evenly;
+    &--5 {
+        background-color: #141414;
+        padding: 1rem 0;
+    }
+    &__box {
+        &--primary {
+            width: 45%;
+            padding: 15vh 0;
+            padding-bottom: 35vh;
+        }
+        &--secondary {
+            width: 55%;
+            background-image: url("../../images/desktop-background.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            padding-bottom: 35vh;
+        }
+        &--list {
+            width: 15%;
+            background-color: $mainColor;
+            text-align: center;
+            padding: 5rem 2.5rem;
+            color: $fontColorPrimary;
+            background-image: url("../../images/desktop-background.jpg");
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            opacity: 80%;
+        }
+    }
+}

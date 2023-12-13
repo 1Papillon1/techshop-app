@@ -1,0 +1,19 @@
+/*
+    card.scss
+*/
+.card {
+  margin: auto;
+  color: white;
+  width: 40rem;
+}
+.card__title {
+  font-family: "Urbanist", sans-serif;
+  font-weight: bold;
+  font-size: 60px;
+}
+.card__subtitle {
+  font-family: "Urbanist", sans-serif;
+  font-size: 18px;
+  color: #999999;
+  margin-bottom: 5rem;
+}/*# sourceMappingURL=card.css.map */

@@ -4,14 +4,25 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Root from './routes/root';
 import "./styles/app.css";
 
+// Store
+import Store from './Store/store';
+
+// ROUTES
+import Root from './routes/root';
+import Shop from './routes/shop';
+
+const techStore = new Store();
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
+  },
+  {
+    path: "/products",
+    element: <Shop store={techStore}/>,
   },
 ]);
 

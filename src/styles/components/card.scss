@@ -1,0 +1,23 @@
+/*
+    card.scss
+*/
+
+$fontColorSecondary : #999999;
+
+.card {
+    margin: auto;
+    color: white;
+    width: 40rem;
+
+    &__title {
+        font-family: 'Urbanist', sans-serif;
+        font-weight: bold;
+        font-size: 60px;
+    }
+    &__subtitle {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 18px;
+        color: $fontColorSecondary;
+        margin-bottom: 5rem;
+    }
+}

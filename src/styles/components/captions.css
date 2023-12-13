@@ -1,0 +1,15 @@
+/*
+    captions.scss
+*/
+.caption {
+  background-color: #262626;
+  color: #fcfcfc;
+  font-family: "Urbanist", sans-serif;
+  border: 1px solid #303030;
+  float: right;
+  padding: 10px 15px;
+  opacity: 90%;
+}
+.caption__link {
+  color: #fcfcfc;
+}/*# sourceMappingURL=captions.css.map */

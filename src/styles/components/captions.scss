@@ -1,0 +1,22 @@
+/*
+    captions.scss
+*/ 
+
+$captionPrimaryBackgroundColor: #262626;
+$captionPrimaryFontColor: #fcfcfc;
+$captionBorderColor: #303030;
+$fontPrimaryFamily: 'Urbanist', sans-serif;
+
+
+.caption {
+    background-color: $captionPrimaryBackgroundColor;
+    color: $captionPrimaryFontColor;
+    font-family: $fontPrimaryFamily;
+    border: 1px solid $captionBorderColor;
+    float: right;
+    padding: 10px 15px;
+    opacity: 90%;
+    &__link {
+        color: $captionPrimaryFontColor;
+    }
+}
