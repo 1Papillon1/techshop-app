@@ -3,7 +3,7 @@
 */
 
 $buttonPrimaryFontColor: #fcfcfc;
-$buttonPrimaryBackgroundColor: #262626;
+$buttonPrimaryBackgroundColor: #1A1A1A;
 $buttonBorderColor: #303030;
 $fontPrimaryFamily: 'Urbanist', sans-serif;
 
@@ -18,6 +18,8 @@ $fontPrimaryFamily: 'Urbanist', sans-serif;
 
     
     &--nav {
+        background-color: $buttonPrimaryBackgroundColor;
+        border: 1px solid $buttonPrimaryBackgroundColor;
         &:hover {
             transition: 0.3s;
             background-color: $buttonPrimaryBackgroundColor;

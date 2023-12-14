@@ -5,6 +5,11 @@
   display: flex;
   justify-content: space-evenly;
 }
+.flex--2 {
+  margin-top: 5rem;
+  width: 45%;
+  flex-wrap: wrap;
+}
 .flex--5 {
   background-color: #141414;
   padding: 1rem 0;
@@ -22,13 +27,22 @@
   padding-bottom: 35vh;
 }
 .flex__box--list {
-  width: 15%;
-  background-color: #262626;
-  text-align: center;
-  padding: 5rem 2.5rem;
+  width: 18rem;
+  background-color: #1A1A1A;
+  padding: 1rem 1rem;
+  margin: 1rem 1rem;
   color: #FFFFFF;
-  background-image: url("../../images/desktop-background.jpg");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  opacity: 80%;
+  border: 1px solid #303030;
+  border-radius: 3px;
+}
+.flex__box__image {
+  width: 100%;
+  border-radius: 6px;
+}
+.flex__box__title {
+  font-size: 24px;
+}
+.flex__box__subtitle {
+  font-size: 18px;
+  color: #999999;
 }/*# sourceMappingURL=flex.css.map */

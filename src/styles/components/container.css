@@ -1,0 +1,8 @@
+/*
+    container.scss
+*/
+.container {
+  display: flex;
+  justify-content: center;
+  background-color: #1A1A1A;
+}/*# sourceMappingURL=container.css.map */

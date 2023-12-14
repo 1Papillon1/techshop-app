@@ -10,14 +10,18 @@
   border-radius: 5px;
   font-family: "Urbanist", sans-serif;
 }
+.button--nav {
+  background-color: #1A1A1A;
+  border: 1px solid #1A1A1A;
+}
 .button--nav:hover {
   transition: 0.3s;
-  background-color: #262626;
+  background-color: #1A1A1A;
   border: 1px solid #303030;
   border-radius: 5px;
 }
 .button--right {
-  background-color: #262626;
+  background-color: #1A1A1A;
   border: 1px solid #303030;
   border-radius: 5px;
 }
@@ -55,7 +59,7 @@
   cursor: pointer;
 }
 .button--secondary {
-  background-color: #262626;
+  background-color: #1A1A1A;
   border: 1px solid #303030;
   border-radius: 5px;
   padding: 15px 25px;

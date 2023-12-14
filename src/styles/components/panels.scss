@@ -1,0 +1,54 @@
+/*
+    panels.scss
+*/
+
+$linearPrimaryGradient : linear-gradient(to right, #303030, #303030, #262626, #262626, #1A1A1A, #1A1A1A);
+$fontColorSecondary : #999999;
+$fontPrimaryFamily : 'Urbanist', sans-serif;
+
+.panel {
+    color: white;
+    background-image: $linearPrimaryGradient;
+    width: 100%;
+    padding: 8rem 0;
+    padding-bottom: 12rem;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    &__title {
+        font-family: $fontPrimaryFamily;
+        font-weight: bold;
+        font-size: 60px;
+        margin-left: 5%;
+        width: 50%;
+    }
+    &__subtitle {
+        font-family: $fontPrimaryFamily;
+        font-size: 20px;
+        color: $fontColorSecondary;
+        margin-left: 5%;
+        width: 60;
+    }
+}
+
+
+/*
+
+
+.card {
+    margin: auto;
+    color: white;
+    width: 40rem;
+
+    &__title {
+        font-family: 'Urbanist', sans-serif;
+        font-weight: bold;
+        font-size: 60px;
+    }
+    &__subtitle {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 18px;
+        color: $fontColorSecondary;
+        margin-bottom: 5rem;
+    }
+}
+*/

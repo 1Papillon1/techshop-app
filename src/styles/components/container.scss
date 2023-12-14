@@ -1,0 +1,12 @@
+/*
+    container.scss
+*/
+
+$mainColor: #1A1A1A;
+
+.container {
+    display: flex;
+    justify-content: center;
+    background-color: $mainColor;
+    
+}

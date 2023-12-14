@@ -1,0 +1,48 @@
+/*
+    panels.scss
+*/
+.panel {
+  color: white;
+  background-image: linear-gradient(to right, #303030, #303030, #262626, #262626, #1A1A1A, #1A1A1A);
+  width: 100%;
+  padding: 8rem 0;
+  padding-bottom: 12rem;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.panel__title {
+  font-family: "Urbanist", sans-serif;
+  font-weight: bold;
+  font-size: 60px;
+  margin-left: 5%;
+  width: 50%;
+}
+.panel__subtitle {
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  color: #999999;
+  margin-left: 5%;
+  width: 60;
+}
+
+/*
+
+
+.card {
+    margin: auto;
+    color: white;
+    width: 40rem;
+
+    &__title {
+        font-family: 'Urbanist', sans-serif;
+        font-weight: bold;
+        font-size: 60px;
+    }
+    &__subtitle {
+        font-family: 'Urbanist', sans-serif;
+        font-size: 18px;
+        color: $fontColorSecondary;
+        margin-bottom: 5rem;
+    }
+}
+*//*# sourceMappingURL=panels.css.map */
