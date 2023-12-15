@@ -1,0 +1,23 @@
+/*
+    options.scss
+*/
+.options {
+  margin: auto;
+  background-color: #262626;
+  width: 45.5rem;
+  padding: 0.5rem;
+  border-radius: 3px;
+  margin-top: -1.5rem;
+}
+.options__input {
+  background-color: #1A1A1A;
+  border: 1px solid #303030;
+  border-radius: 3px;
+  color: #fcfcfc;
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  font-family: "Urbanist", sans-serif;
+  font-size: 24px;
+}/*# sourceMappingURL=options.css.map */

@@ -9,20 +9,26 @@ $borderColor : #303030;
 
 .flex {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     &--2 {
-        margin-top: 5rem;
-        width: 45%;
+        margin-top: 10rem;
+        width: 49.5rem;
         flex-wrap: wrap;
         
     }
+    
     &--5 {
         background-color: #141414;
         padding: 1rem 0;
         
     }
 
+    &__title {
+        color: $fontColorPrimary;
+        font-family: 'Urbanist', sans-serif;
+        font-size: 30px;
+    }
 
     &__box {
         &--primary {
@@ -38,7 +44,7 @@ $borderColor : #303030;
             padding-bottom: 35vh;
         }
         &--list {
-            width: 18rem;
+            width: 20rem;
             background-color: $mainColor;
             padding: 1rem 1rem;
             margin: 1rem 1rem;
@@ -59,4 +65,5 @@ $borderColor : #303030;
             color: $fontColorSecondary;
         }
     }
+
 }

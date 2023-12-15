@@ -3,16 +3,21 @@
 */
 .flex {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .flex--2 {
-  margin-top: 5rem;
-  width: 45%;
+  margin-top: 10rem;
+  width: 49.5rem;
   flex-wrap: wrap;
 }
 .flex--5 {
   background-color: #141414;
   padding: 1rem 0;
+}
+.flex__title {
+  color: #FFFFFF;
+  font-family: "Urbanist", sans-serif;
+  font-size: 30px;
 }
 .flex__box--primary {
   width: 45%;
@@ -27,7 +32,7 @@
   padding-bottom: 35vh;
 }
 .flex__box--list {
-  width: 18rem;
+  width: 20rem;
   background-color: #1A1A1A;
   padding: 1rem 1rem;
   margin: 1rem 1rem;

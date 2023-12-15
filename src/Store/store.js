@@ -28,6 +28,7 @@ class Store {
     keyboards = [];
     headphones = [];
     mouse = [];
+    products = [];
     state = "pending";
 
     
@@ -41,6 +42,7 @@ class Store {
             keyboards: observable,
             headphones: observable,
             mouse: observable,
+            products: observable,
             state: observable,
             totalDesktop: computed,
             totalLaptops: computed,
@@ -63,6 +65,7 @@ class Store {
             this.getKeyboardsData();
             this.getHeadphonesData();
             this.getMouseData();
+            this.getProductsData();
         })
         
        
@@ -145,15 +148,49 @@ class Store {
     getMouseData() {
         refMouse.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
-                this.mouse.push(doc);
+                this.mouse.push(doc.data());
             })
-            this.state = 'finished';
         })
     }
 
-    getData() {
-        console.log(this.desktop);
+
+    // GET ALL DATA
+
+    getProductsData(){
+        refDesktop.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.products.push(doc.data());
+                
+            });
+            
+        })
+
+        refLaptops.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.products.push(doc.data());
+            })
+        })
+
+        refKeyboards.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.products.push(doc.data());
+            })
+        })
+
+        refHeadphones.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.products.push(doc.data());
+            })
+        })
+        
+        refMouse.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.products.push(doc.data());
+            })
+        })
     }
+
+    
 
     showStoreDetails() {
         if(this.state=='finished') {
