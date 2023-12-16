@@ -1,0 +1,52 @@
+/*
+    sidebar.scss
+*/
+
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+$boxBackgroundColor: #1A1A1A;
+$boxBorderColor: #303030;
+
+
+
+
+.sidebar {
+    position: absolute;
+    width: 20%;
+    background-color: $sidebarBackgrondColor;
+    padding: 0.5rem;
+    &__box {
+        box-sizing:border-box;
+        width: 100%;
+        padding: 1rem;
+        font-family: $fontFamily;
+        font-size: 20px;
+        color: $textFontColor;
+        background-color: $boxBackgroundColor;
+        border: 1px solid $boxBorderColor;
+        &__select {
+            background-color: $boxBackgroundColor;
+            font-family: $fontFamily;
+            font-size: 18px;
+            color: $textFontColor;
+            border: 1px solid $boxBorderColor;
+            margin-left: 0.5rem;
+        }
+    }
+    &__group {
+        margin-top: 1rem;
+        &__checkbox {
+            display: inline-block;
+            border: 1px solid $boxBorderColor;
+            background-color: $boxBackgroundColor;
+        }
+        &__label {
+            font-family: $fontFamily;
+            font-size: 18px;
+            color: $textFontColor;
+
+        }
+    }
+}

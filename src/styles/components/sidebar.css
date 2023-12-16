@@ -1,0 +1,40 @@
+/*
+    sidebar.scss
+*/
+.sidebar {
+  position: absolute;
+  width: 20%;
+  background-color: #262626;
+  padding: 0.5rem;
+}
+.sidebar__box {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  color: #fcfcfc;
+  background-color: #1A1A1A;
+  border: 1px solid #303030;
+}
+.sidebar__box__select {
+  background-color: #1A1A1A;
+  font-family: "Urbanist", sans-serif;
+  font-size: 18px;
+  color: #fcfcfc;
+  border: 1px solid #303030;
+  margin-left: 0.5rem;
+}
+.sidebar__group {
+  margin-top: 1rem;
+}
+.sidebar__group__checkbox {
+  display: inline-block;
+  border: 1px solid #303030;
+  background-color: #1A1A1A;
+}
+.sidebar__group__label {
+  font-family: "Urbanist", sans-serif;
+  font-size: 18px;
+  color: #fcfcfc;
+}/*# sourceMappingURL=sidebar.css.map */
