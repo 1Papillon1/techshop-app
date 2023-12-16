@@ -7,6 +7,9 @@ import keyboardsImage from '../images/products/desktop/list-keyboard.jpg';
 import headphonesImage from '../images/products/desktop/list-headphones.jpg';
 import mouseImage from '../images/products/desktop/list-mouse.jpg';
 
+
+
+
 function Products({ store }) {
 
     // states
@@ -42,21 +45,18 @@ function Products({ store }) {
     
     // search bar
     const [searchValue, setSearchValue] = useState('');
-    const [dataFiltered, setDataFiltered] = useState('');
+    const [dataFiltered, setDataFiltered] = useState([]);
 
     const handleInputChange = (e) => {
         const searchValue = e.target.value;
         setSearchValue(searchValue);
 
-        /*
-        const filteredItems = data.filter((item) => 
-        item.name.toLowerCase().includes(searchValue.toLowerCase));
-        */
-
         
-        
-        setDataFiltered(searchValue.toLowerCase());
-
+        const filteredItems = data.filter((product) =>
+        product.name.toLowerCase().includes(searchValue.toLowerCase())
+        );
+    
+        setDataFiltered(filteredItems);
         
     }
 
@@ -96,13 +96,27 @@ function Products({ store }) {
                         </div>
                 )}
 
-                {!loading && (
+                {!loading && dataFiltered.length == 0 && (
                     <div className='flex flex--2'>
-                        {data.map(item => (
+                        {data.map(product => (
                             <div className='flex__box flex__box--list'>
                                 <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
-                                <h2 className='flex__box__title'>{item.name}</h2>
-                                <h3 className='flex__box__subtitle'>€{item.price}</h3>
+                                <h2 className='flex__box__title'>{product.name}</h2>
+                                <h3 className='flex__box__subtitle'>€{product.price}</h3>
+                            </div>
+                        ))}
+
+                        
+                    </div>
+                )}
+
+                {!loading && dataFiltered.length > 0 && (
+                    <div className='flex flex--2'>
+                        {dataFiltered.map(product => (
+                            <div className='flex__box flex__box--list'>
+                                <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
+                                <h2 className='flex__box__title'>{product.name}</h2>
+                                <h3 className='flex__box__subtitle'>€{product.price}</h3>
                             </div>
                         ))}
 
