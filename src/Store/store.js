@@ -1,6 +1,7 @@
 import { action, autorun, computed, makeObservable, observable, runInAction, configure } from "mobx";
 import firebase from "../services/firebase";
 import { toJS } from 'mobx';
+import { v4 as uuid } from 'uuid';
 
 
 configure({
@@ -8,26 +9,26 @@ configure({
 })
 
 
+export const refBrands = firebase.firestore().collection("Brands");
 
-
-export const refDesktop = firebase.firestore().collection("Desktop");
+export const refDesktops = firebase.firestore().collection("Desktop");
 export const refLaptops = firebase.firestore().collection("Laptops");
 export const refKeyboards = firebase.firestore().collection("Keyboards");
 export const refHeadphones = firebase.firestore().collection("Headphones");
-export const refMouse = firebase.firestore().collection("Computer Mice");
+export const refMice = firebase.firestore().collection("Computer Mice");
 
-
+export const small_id = uuid().slice(0,8);
 
 class Store {
 
     
-    
+    brands = [];
 
-    desktop = [];
+    desktops = [];
     laptops = [];
     keyboards = [];
     headphones = [];
-    mouse = [];
+    mice = [];
     products = [];
     state = "pending";
 
@@ -37,34 +38,41 @@ class Store {
     constructor () {
         
         makeObservable(this, {
-            desktop: observable,
+            desktops: observable,
             laptops: observable,
             keyboards: observable,
             headphones: observable,
-            mouse: observable,
+            mice: observable,
             products: observable,
             state: observable,
-            totalDesktop: computed,
+            totalDesktops: computed,
             totalLaptops: computed,
             totalKeyboards: computed,
             totalHeadphones: computed,
-            totalMouse: computed,
+            totalMice: computed,
             storeDetails: computed,
-            getDesktopData: action,
+
+            getDesktopsData: action,
             getLaptopsData: action,
             getKeyboardsData: action,
             getHeadphonesData: action,
-            getMouseData: action,
+            getMiceData: action,
+
+            createDesktop: action,
+            createHeadphone: action,
+            createKeyboard: action,
+            createLaptop: action, 
+            createMouse: action,
         });
       
         
         
         runInAction(() => {
-            this.getDesktopData();
+            this.getDesktopsData();
             this.getLaptopsData();
             this.getKeyboardsData();
             this.getHeadphonesData();
-            this.getMouseData();
+            this.getMiceData();
             this.getProductsData();
         })
         
@@ -76,10 +84,12 @@ class Store {
 
    
 
-    
+    get totalBrands() {
+        return this.brands.length;
+    }
 
-    get totalDesktop() {
-        return this.desktop.length;
+    get totalDesktops() {
+        return this.desktops.length;
     }
 
     get totalLaptops() {
@@ -94,33 +104,68 @@ class Store {
         return this.headphones.length;
     }
 
-    get totalMouse() {
-        return this.mouse.length;
+    get totalMice() {
+        return this.mice.length;
     }
 
 
     
     get storeDetails() {
         return `We have 
-        ${this.totalDesktop} total desktops,
+        ${this.totalDesktops} total desktops,
         ${this.totalLaptops} total laptops,
         ${this.totalKeyboards} total keyboards,
         ${this.totalHeadphones} total headphones,
-        ${this.totalMouse} total mouse,
+        ${this.totalMice} total computer mice,
         `
     }
 
-    getDesktopData() {
-        
-        refDesktop.onSnapshot((QuerySnapshot) => {
+    // Brand
+    getBrandsData() {
+        refBrands.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
-                this.desktop.push(doc.data());
+                this.brands.push(doc.data());
+            })
+        })
+    }
+
+    createBrand(brand = {id: small_id, name: ""}) {
+        this.brands.push(brand);
+    }
+
+    updateBrand(id, update) {
+        const brandIndexAtId = this.brands.findIndex((brand) => brand.id === id);
+        if (brandIndexAtId > -1 && update) {
+            this.brands[brandIndexAtId] = update;
+        }
+    }
+
+    // Desktop
+    getDesktopsData() {
+        
+        refDesktops.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.desktops.push(doc.data());
                 
             });
             
         })
     }
 
+
+    createDesktop(desktop = {id: small_id, name: "", price: "", brand: null}) {
+        this.desktops.push(desktop);
+    }
+
+    updateDesktop(id, update) {
+        const desktopIndexAtId = this.desktops.findIndex((desktop) => desktop.id === id);
+        if (desktopIndexAtId > -1 && update) {
+            this.desktops[desktopIndexAtId] = update;
+        }
+    }
+
+
+    // Laptop
     getLaptopsData() {
         refLaptops.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
@@ -129,6 +174,19 @@ class Store {
         })
     }
 
+    createLaptop(laptop = {id: small_id, name: "", price: "", brand: null}) {
+        this.laptops.push(laptop);
+    }
+
+    updateLaptop(id, update) {
+        const laptopIndexAtId = this.laptops.findIndex((laptop) => laptop.id === id);
+        if (laptopIndexAtId > -1 && update) {
+            this.laptops[laptopIndexAtId] = update;
+        }
+    }
+
+
+    // Keyboard
     getKeyboardsData() {
         refKeyboards.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
@@ -137,6 +195,18 @@ class Store {
         })
     }
 
+    createKeyboard(keyboard = {id: small_id, name: "", price: "", brand: null}) {
+        this.keyboards.push(keyboard);
+    }
+
+    updateKeyboards(id, update) {
+        const keyboardIndexAtId = this.keyboards.findIndex((keyboard) => keyboard.id === id);
+        if (keyboardIndexAtId > -1 && update) {
+            this.keyboards[keyboardIndexAtId] = update;
+        }
+    }
+
+    // Headphones
     getHeadphonesData() {
         refHeadphones.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
@@ -145,25 +215,55 @@ class Store {
         })
     }
 
-    getMouseData() {
-        refMouse.onSnapshot((QuerySnapshot) => {
+    createHeadphone(headphone = {id: small_id, name: "", price: "", brand: null}) {
+        this.headphones.push(headphone);
+    }
+
+    updateHeadphones(id, update) {
+        const headphoneIndexAtId = this.headphones.findIndex((headphone) => headphone.id === id);
+        if (headphoneIndexAtId > -1 && update) {
+            this.headphones[headphoneIndexAtId] = update;
+        }
+    }
+
+    // Mouse
+    getMiceData() {
+        refMice.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
-                this.mouse.push(doc.data());
+                this.mice.push(doc.data());
             })
         })
+    }
+
+    createMouse(mouse = {id: small_id, name: "", price: "", brand: null}) {
+        this.mice.push(mouse);
+    }
+
+    updateMouse(id, update) {
+        const mouseIndexAtId = this.mice.findIndex((mouse) => mouse.id === id);
+        if (mouseIndexAtId > -1 && update) {
+            this.mice[mouseIndexAtId] = update;
+        }
     }
 
 
     // GET ALL DATA
 
     getProductsData(){
-        refDesktop.onSnapshot((QuerySnapshot) => {
+        refBrands.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+                this.brands.push(doc.data());
+            })
+        })
+
+        refDesktops.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
                 this.products.push(doc.data());
                 
             });
             
         })
+
 
         refLaptops.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
@@ -183,7 +283,7 @@ class Store {
             })
         })
         
-        refMouse.onSnapshot((QuerySnapshot) => {
+        refMice.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
                 this.products.push(doc.data());
             })
@@ -194,12 +294,13 @@ class Store {
 
     showStoreDetails() {
         if(this.state=='finished') {
-        console.log(`We have 
-        ${this.totalDesktop} total desktops,
+        console.log(`We have
+        ${this.totalBrands} total brands,
+        ${this.totalDesktops} total desktops,
         ${this.totalLaptops} total laptops,
         ${this.totalKeyboards} total keyboards,
         ${this.totalHeadphones} total headphones,
-        ${this.totalMouse} total computer mice,
+        ${this.totalMice} total computer mice,
         `);
         }
     }

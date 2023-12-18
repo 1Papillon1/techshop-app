@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { toJS } from 'mobx';
 
 import desktopImage from '../images/products/desktop/list-desktop.jpg';
@@ -28,36 +28,85 @@ priceRange
     const [data, setData] = useState([])
 
     // define store products
-    const { desktop, laptops, keyboards, headphones, mouse, products } = store;
+    const { brands, desktop, laptops, keyboards, headphones, mouse, products } = store;
+    const brandsJS = toJS(brands);
+    const productsJS = toJS(products);
 
     // filtering 
     const [price, setPrice] = useState();
 
     // functions 
+    /*
     const showData = () => {
         setTimeout(() => {
+            
             setLoading(false);
-
-            /*
+            
             setDesktopData(toJS(desktop));
             setLaptopsData(toJS(laptops));
             setKeyboardsData(toJS(keyboards));
             setMouseData(toJS(mouse));
             setHeadphonesData(toJS(headphones));
-            */
+            
 
             setData(toJS(products));
             
         })
-
+        
         
     }
+    */
 
-    useEffect(() => {
-        showData();
+    const dataAscending = [...productsJS].sort((a, b) =>
+        a.name > b.name ? 1 : -1,
+    );
+
+    const dataDescending = [...productsJS].sort((a, b) =>
+        a.name < b.name ? 1 : -1,
+    );
+
+    const dataAscendingPrice = [...productsJS].sort((a, b) =>
+        a.price > b.price ? 1 : -1,
+    );
+
+    const dataDescendingPrice = [...productsJS].sort((a, b) =>
+        a.price < b.price ? 1 : -1,
+    );
+
+
+
+    const memoizedCallback = useCallback(
+        ()=> {
+            
+            
+            setTimeout(() => {
+            setLoading(false);
+            if (sortOption === 'sortName') {
+                setData(dataAscending);
+            } else if (sortOption === 'sortNameDesc') {
+                setData(dataDescending);
+            }else if (sortOption === 'sortPrice') {
+                setData(dataAscendingPrice);
+            } else if (sortOption === 'sortPriceDesc') {
+                setData(dataDescendingPrice);
+            } else {
+                setData(productsJS);
+            }
+            
+        }, 100)
+        },
+        [data]
+    )
 
     
-    })
+
+    useEffect(() => {
+        
+            memoizedCallback();
+        
+            
+    
+    },[data])
 
     
     // search bar
@@ -78,24 +127,21 @@ priceRange
     }
 
     // sorting
-    const [sortOption, setSortOption] = useState('Default');
+    const [sortOption, setSortOption] = useState('default');
 
     const handleSort = (e) => {
-        setSortOption(e.target.value)
+        setSortOption(e.target.value);
+    
+
     }
+    
 
     
-    // abecedno prema nazivu
-    const dataAscending = [...data].sort((a, b) =>
-    a.name > b.name ? 1 : -1,
-    );
-
-
-  // cijena od najvece prema najmanjoj. Samo promjeni < u > za najmanju prema najvecoj
-    const dataAscendingPrice = [...data].sort((a, b) =>
-    a.price < b.price ? 1 : -1,
-    );
-  console.log(dataAscendingPrice);
+        
+        
+    
+    
+  
     
     
     return (
@@ -117,8 +163,10 @@ priceRange
                         </label>
                         <select value={sortOption} onChange={handleSort} className='sidebar__box__select' defaultValue='default' id='sorting' name='sorting'>
                             <option className='sidebar__box__option' value="default">Default</option>
-                            <option className='sidebar__box__option' value="sortName">Name</option>
-                            <option className='sidebar__box__option' value="sortPrice">Price</option>
+                            <option className='sidebar__box__option' value="sortName">Name (Asc)</option>
+                            <option className='sidebar__box__option' value="sortNameDesc">Name (Desc)</option>
+                            <option className='sidebar__box__option' value="sortPrice">Price (Asc)</option>
+                            <option className='sidebar__box__option' value="sortPriceDesc">Price (Desc)</option>
                         </select>
                     </div>
 
