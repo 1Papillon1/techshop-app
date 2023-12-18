@@ -1,0 +1,45 @@
+/*
+    forms.scss
+*/ 
+
+$inputBackgroundColor: #1A1A1A;
+$inputBorderColor: #303030;
+$inputFontColor: #fcfcfc;
+$inputPlaceHolderFontColor: #666666;
+
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+
+.form {
+    padding: 1rem;
+    &__label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-family: $fontFamily;
+    }
+    &__input {
+        display: block;
+        margin-bottom: 2rem;
+        background-color: $inputBackgroundColor;
+        border: 1px solid $inputBorderColor;
+        border-radius: 3px;
+        color: $fontColor;
+        outline: none;
+        box-sizing:border-box;
+        width: 100%;
+        padding: 0.5rem;
+        font-family: $fontFamily;
+        font-size: 24px;
+        padding-left: 1rem;
+    }
+    &__select {
+        background-color: $inputBackgroundColor;
+        font-family: $fontFamily;
+        font-size: 18px;
+        color: $textFontColor;
+        border: 1px solid $inputBorderColor;
+    }
+}
+

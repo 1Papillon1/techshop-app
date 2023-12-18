@@ -1,0 +1,32 @@
+/* 
+    aside.scss
+*/
+
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+$boxBackgroundColor: #1A1A1A;
+$boxBorderColor: #303030;
+
+.aside {
+    width: 30%;
+    box-sizing: border-box;
+    position: fixed;
+    float: right;
+    right: 0;
+    height: 100vh;
+    padding: 1rem;
+    background-color: $sidebarBackgrondColor;
+    z-index: 3;
+    &__box {
+        box-sizing:border-box;
+        width: 100%;
+        padding: 1rem;
+        font-family: $fontFamily;
+        font-size: 20px;
+        color: $textFontColor;
+        background-color: $boxBackgroundColor;
+        border: 1px solid $boxBorderColor;
+    }
+}

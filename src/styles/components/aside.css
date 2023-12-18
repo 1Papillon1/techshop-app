@@ -1,0 +1,24 @@
+/* 
+    aside.scss
+*/
+.aside {
+  width: 30%;
+  box-sizing: border-box;
+  position: fixed;
+  float: right;
+  right: 0;
+  height: 100vh;
+  padding: 1rem;
+  background-color: #262626;
+  z-index: 3;
+}
+.aside__box {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem;
+  font-family: "Urbanist", sans-serif;
+  font-size: 20px;
+  color: #fcfcfc;
+  background-color: #1A1A1A;
+  border: 1px solid #303030;
+}/*# sourceMappingURL=aside.css.map */

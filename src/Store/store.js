@@ -57,6 +57,9 @@ class Store {
             getKeyboardsData: action,
             getHeadphonesData: action,
             getMiceData: action,
+            
+            getProductsByBrand: action,
+            assignBrandToProduct: action,
 
             createDesktop: action,
             createHeadphone: action,
@@ -139,6 +142,24 @@ class Store {
             this.brands[brandIndexAtId] = update;
         }
     }
+
+    // get product by brand id
+    getProductsByBrand(brandId) {
+        return this.products.filter((product) => {
+            return product.brand && product.brand.id === brandId;
+        })
+    }
+
+    
+    // assign brand using brand id to a pet using petId
+    assignBrandToProduct(brandId, productId) {
+        const productIndexAtId = this.products.findIndex((product) => product.id === productId);
+        const brandIndexAtId = this.brands.findIndex((product) => product.id === brandId);
+        if (productIndexAtId > -1 && brandIndexAtId > -1) {
+            this.products[productIndexAtId].brand = this.brands[brandIndexAtId];
+        }
+    }
+    
 
     // Desktop
     getDesktopsData() {
@@ -288,6 +309,7 @@ class Store {
                 this.products.push(doc.data());
             })
         })
+        this.state = 'finished';
     }
 
     

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { toJS } from 'mobx';
 
+
 import desktopImage from '../images/products/desktop/list-desktop.jpg';
 import laptopsImage from '../images/products/desktop/list-laptop.jpg';
 import keyboardsImage from '../images/products/desktop/list-keyboard.jpg';
@@ -10,7 +11,9 @@ import mouseImage from '../images/products/desktop/list-mouse.jpg';
 
 
 
-function Products({ store }) {
+function Products({ store, showAside, setShowAside }) {
+
+    
 
 /*
 Napravit posebne varijable za filtriranje koje će definirati 
@@ -35,28 +38,8 @@ priceRange
     // filtering 
     const [price, setPrice] = useState();
 
-    // functions 
-    /*
-    const showData = () => {
-        setTimeout(() => {
-            
-            setLoading(false);
-            
-            setDesktopData(toJS(desktop));
-            setLaptopsData(toJS(laptops));
-            setKeyboardsData(toJS(keyboards));
-            setMouseData(toJS(mouse));
-            setHeadphonesData(toJS(headphones));
-            
 
-            setData(toJS(products));
-            
-        })
-        
-        
-    }
-    */
-
+    // sorting
     const dataAscending = [...productsJS].sort((a, b) =>
         a.name > b.name ? 1 : -1,
     );
@@ -122,7 +105,8 @@ priceRange
         product.name.toLowerCase().includes(searchValue.toLowerCase())
         );
     
-        setDataFiltered(filteredItems);
+ //       setDataFiltered(filteredItems);
+        setData(filteredItems);
         
     }
 
@@ -137,7 +121,12 @@ priceRange
     
 
     
+    // aside
+    let toggleAside = () => {
+        showAside = !showAside;
+        setShowAside(showAside);
         
+    }
         
     
     
@@ -146,6 +135,8 @@ priceRange
     
     return (
         <div className='layout'>
+            
+
             <div className='panel'>
                 <h2 className='panel__title'>Search our Shop for High Quality Products</h2>
                 <h3 className='panel__subtitle'>Welcome to TechShop. We offer you the best 
@@ -155,7 +146,7 @@ priceRange
 
             <div className='sidebar'>
                 <div className='sidebar__box'>
-                    <h2 className='sidebar__box__title'>Sorting & Filtering</h2>
+                    <h2 className='sidebar__box__title'>Filtering</h2>
 
                     <div className='sidebar__group'>
                         <label for='sorting' className='sidebar__box__label'>
@@ -189,6 +180,8 @@ priceRange
 
                 </div>
             </div>
+            <button className='button button--primary button--primary--right' onClick={toggleAside}>Add Product</button>
+
 
             <div className='options'>
                <input 
@@ -200,7 +193,8 @@ priceRange
                
             </div>
             
-
+            
+            
             <div className='container'>
                 
                 {loading && (
@@ -211,7 +205,7 @@ priceRange
                         </div>
                 )}
 
-                {!loading && searchValue.length == 0 && (
+                {!loading && (
                     <div className='flex flex--2'>
                         {data.map(product => (
                             <div className='flex__box flex__box--list'>
@@ -225,7 +219,21 @@ priceRange
                     </div>
                 )}
 
-                {!loading && searchValue.length > 0 && (
+                {/*!loading && searchValue.length == 0 && (
+                    <div className='flex flex--2'>
+                        {data.map(product => (
+                            <div className='flex__box flex__box--list'>
+                                <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
+                                <h2 className='flex__box__title'>{product.name}</h2>
+                                <h3 className='flex__box__subtitle'>€{product.price}</h3>
+                            </div>
+                        ))}
+
+                        
+                    </div>
+                        )*/}
+
+                {/*!loading && searchValue.length > 0 && (
                     <div className='flex flex--2'>
                         {dataFiltered.map(product => (
                             <div className='flex__box flex__box--list'>
@@ -237,7 +245,7 @@ priceRange
 
                         
                     </div>
-                )}
+                        )*/}
 
 
             </div>
