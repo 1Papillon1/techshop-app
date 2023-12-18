@@ -144,9 +144,9 @@ class Store {
     }
 
     // get product by brand id
-    getProductsByBrand(brandId) {
+    getProductsByBrand(id) {
         return this.products.filter((product) => {
-            return product.brand && product.brand.id === brandId;
+            return product.brand && product.brand.id === id;
         })
     }
 

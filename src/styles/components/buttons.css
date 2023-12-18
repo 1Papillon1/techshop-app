@@ -82,4 +82,21 @@
 }
 .button--secondary:hover {
   cursor: pointer;
+}
+.button--form {
+  padding: 15px 25px;
+  border: none;
+  margin-top: 2rem;
+  font-size: 20px;
+}
+.button--form:hover {
+  cursor: pointer;
+}
+.button--form--primary {
+  background-color: #703BF7;
+}
+.button--form--secondary {
+  background-color: #1A1A1A;
+  border: 1px solid #303030;
+  margin-left: 1rem;
 }/*# sourceMappingURL=buttons.css.map */

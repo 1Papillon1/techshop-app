@@ -8,7 +8,7 @@ $inputFontColor: #fcfcfc;
 $inputPlaceHolderFontColor: #666666;
 
 $sidebarBackgrondColor: #262626;
-$textFontColor: #fcfcfc;
+$fontColor: #fcfcfc;
 $fontFamily: 'Urbanist', sans-serif;
 
 
@@ -35,11 +35,19 @@ $fontFamily: 'Urbanist', sans-serif;
         padding-left: 1rem;
     }
     &__select {
+        display: block;
+        width: 100%;
+        padding: 0.5rem;
         background-color: $inputBackgroundColor;
         font-family: $fontFamily;
         font-size: 18px;
-        color: $textFontColor;
+        color: $fontColor;
         border: 1px solid $inputBorderColor;
+        margin-bottom: 2rem;
+        margin-top: 0.5rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
     }
+    
 }
 

@@ -95,5 +95,23 @@ $fontPrimaryFamily: 'Urbanist', sans-serif;
             cursor: pointer;
         }
     }
+
+    &--form {
+        padding: 15px 25px;
+        border: none;
+        margin-top: 2rem;
+        font-size: 20px;
+        &:hover {
+            cursor: pointer;
+        }
+        &--primary {
+            background-color: #703BF7;
+        }
+        &--secondary {
+            background-color: $buttonPrimaryBackgroundColor;
+            border: 1px solid $buttonBorderColor;
+            margin-left: 1rem;
+        }
+    }
     
 }

@@ -25,10 +25,16 @@
   padding-left: 1rem;
 }
 .form__select {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
   background-color: #1A1A1A;
   font-family: "Urbanist", sans-serif;
   font-size: 18px;
   color: #fcfcfc;
   border: 1px solid #303030;
-
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
 }/*# sourceMappingURL=forms.css.map */
