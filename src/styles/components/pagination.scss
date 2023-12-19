@@ -1,0 +1,32 @@
+/*
+    pagination.scss
+*/
+
+
+.pagination {
+    width: 100%;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    &__list {
+        list-style-type: none;
+    }
+    &__item {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+    &__link {
+        text-decoration: none;
+        padding: 5px;
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        color: white;
+        font-family: Cambria;
+        font-size: 20px;
+        &--last {
+            border-right: 1px solid black;
+        }
+    }
+}

@@ -8,16 +8,22 @@ import { v4 as uuid } from 'uuid';
 function ProductAdd({ store, showAside, setShowAside }) {
 
     // states
+
+    
+    const [productName, setProductName] = useState('');
+    const [productPrice, setProductPrice] = useState();
+    const [productBrand, setProductBrand] = useState([]);
+    const [productBrandId, setProductBrandId] = useState();
+    const [productTypeOption, setProductTypeOption] = useState('desktop');
+
     const [loading, setLoading] = useState(true);
     const [brandsData, setBrandsData] = useState([]);
-
-    const [productTypeOption, setProductTypeOption] = useState('desktop');
 
 
     // defining store items
     const { brands, desktop, laptops, keyboards, headphones, mouse, products } = store;
     const brandsJS = toJS(brands);
-    const productsJS = toJS(products);
+    
 
     
 
@@ -28,6 +34,8 @@ const memoizedCallback = useCallback(
             setLoading(false);
             
                 setBrandsData(brandsJS);
+                
+                setProductBrandId(1);
                 
               
         }, 100)
@@ -51,28 +59,70 @@ const memoizedCallback = useCallback(
         setShowAside(showAside);
     }
 
+
+    // add product function
     const handleAddProduct = () => {
+        let small_id = uuid().slice(0,5);
 
-    /*
-        const name = prompt("Name of the pet");
-        const price = prompt("Type of the pet");
-        
-        const ownerId = prompt("Owner's Id of the pet");
+        const name = productName;
+        const price = productPrice;
+        const brand = productBrandId;
 
-        const product = store.createProduct({ id: Date.now(), name, breed, type });
-        store.assignOwnerToPet(ownerId, pet.id);
-    */
+        if (productTypeOption === 'desktop') {
+            store.createDesktop({ id: small_id, name, price, brand });
+        } else if (productTypeOption === 'headphone') {
+            store.createHeadphone({ id: small_id, name, price, brand });
+        } else if (productTypeOption === 'keyboard') {
+            store.createKeyboard({ id: small_id, name, price, brand });
+        } else if (productTypeOption === 'laptop') {
+            store.createLaptop({ id: small_id, name, price, brand });
+        } else if (productTypeOption === 'mouse') {
+            store.createMouse({ id: small_id, name, price, brand });
+        }
+
+    console.log("Product added to Store. Name: ", name, ", Price: $", price);
+
+    setProductName('');
+    setProductPrice('');
+    setProductBrand([]);
+    setProductBrandId(1);
+    setProductTypeOption('desktop');
+    
+
     };
 
-    // get brand with id = 2
-    // console.log(brandsData.filter((brand) => brand.id==2));
+    
+    
+    const handleProductName = (e) => {
+        setProductName(e.target.value);
+    
 
+    }
+
+    const handleProductPrice = (e) => {
+        setProductPrice(e.target.value);
+    
+
+    }
     
 
     const handleProductType = (e) => {
         setProductTypeOption(e.target.value);
     
 
+    }
+
+
+    const handleProductBrand = (e) => {
+        setProductBrand(e.target.value);
+
+        
+
+        const chosenBrand = brands.filter((brand) => brand.name==(e.target.value));
+
+        setProductBrandId(chosenBrand[0].id);
+        
+        
     }
 
     
@@ -96,9 +146,9 @@ return(
                             </button>
                             <h2 className='aside__box__title'>Add Product</h2>
         
-                            <form className='form'>
+                            <div className='form'>
                                 <label for='productBrand'>Brand:</label>
-                                <select className='form__select' id='productBrand' name='productBrand'>
+                                <select value={productBrand} onChange={handleProductBrand} className='form__select' id='productBrand' name='productBrand'>
                                     {brandsData.map((brand) => {
                                         return (
                                             <option className='form__option'>{brand.name}</option>
@@ -108,9 +158,9 @@ return(
                                 </select>
 
                                 <label className='form__label' for='name'>Name:</label>
-                                <input className='form__input' name='name' id='name'/>
+                                <input className='form__input' name='name' id='name' value={productName} onChange={handleProductName}/>
                                 <label className='form__label' for='price'>Price:</label>
-                                <input className='form__input' name='price' id='price'/>
+                                <input type='number' className='form__input' name='price' id='price' value={productPrice} onChange={handleProductPrice}/>
                 
                                 
                                 <label for='productType'>Type:</label>
@@ -118,17 +168,17 @@ return(
                                     <option className='form__option' value="desktop">Desktop</option>
                                     <option className='form__option' value="laptop">Laptop</option>
                                     <option className='form__option' value="keyboard">Keyboard</option>
-                                    <option className='form__option' value="headphone">Headphones</option>
+                                    <option className='form__option' value="headphones">Headphones</option>
                                     <option className='form__option' value="mouse">Mouse</option>
                                     
                                 </select>
 
-                                <button className='button button--form button--form--primary'>Add Product</button>
+                                <button className='button button--form button--form--primary' onClick={handleAddProduct}>Add Product</button>
                                 <button className='button button--form button--form--secondary' onClick={toggleAside}>Cancel</button>
                 
                                 
 
-                            </form>
+                            </div>
                     </div>
                 </div>
 

@@ -11,11 +11,7 @@ configure({
 
 export const refBrands = firebase.firestore().collection("Brands");
 
-export const refDesktops = firebase.firestore().collection("Desktop");
-export const refLaptops = firebase.firestore().collection("Laptops");
-export const refKeyboards = firebase.firestore().collection("Keyboards");
-export const refHeadphones = firebase.firestore().collection("Headphones");
-export const refMice = firebase.firestore().collection("Computer Mice");
+export const refProducts = firebase.firestore().collection("Products");
 
 export const small_id = uuid().slice(0,8);
 
@@ -24,11 +20,7 @@ class Store {
     
     brands = [];
 
-    desktops = [];
-    laptops = [];
-    keyboards = [];
-    headphones = [];
-    mice = [];
+
     products = [];
     state = "pending";
 
@@ -38,45 +30,26 @@ class Store {
     constructor () {
         
         makeObservable(this, {
-            desktops: observable,
-            laptops: observable,
-            keyboards: observable,
-            headphones: observable,
-            mice: observable,
             products: observable,
             state: observable,
-            totalDesktops: computed,
-            totalLaptops: computed,
-            totalKeyboards: computed,
-            totalHeadphones: computed,
-            totalMice: computed,
+            totalProducts: computed,
             storeDetails: computed,
 
-            getDesktopsData: action,
-            getLaptopsData: action,
-            getKeyboardsData: action,
-            getHeadphonesData: action,
-            getMiceData: action,
+            getProductsData: action,
             
             getProductsByBrand: action,
             assignBrandToProduct: action,
 
-            createDesktop: action,
-            createHeadphone: action,
-            createKeyboard: action,
-            createLaptop: action, 
-            createMouse: action,
+            createProduct: action,
+
+            deleteProduct: action,
         });
       
         
         
         runInAction(() => {
-            this.getDesktopsData();
-            this.getLaptopsData();
-            this.getKeyboardsData();
-            this.getHeadphonesData();
-            this.getMiceData();
             this.getProductsData();
+            
         })
         
        
@@ -91,35 +64,18 @@ class Store {
         return this.brands.length;
     }
 
-    get totalDesktops() {
-        return this.desktops.length;
-    }
+    
 
-    get totalLaptops() {
-        return this.laptops.length;
-    }
-
-    get totalKeyboards() {
-        return this.keyboards.length;
-    }
-
-    get totalHeadphones() {
-        return this.headphones.length;
-    }
-
-    get totalMice() {
-        return this.mice.length;
+    get totalProducts() {
+        return this.products.length;
     }
 
 
     
     get storeDetails() {
         return `We have 
-        ${this.totalDesktops} total desktops,
-        ${this.totalLaptops} total laptops,
-        ${this.totalKeyboards} total keyboards,
-        ${this.totalHeadphones} total headphones,
-        ${this.totalMice} total computer mice,
+        ${this.totalProducts} total products,
+        
         `
     }
 
@@ -161,155 +117,47 @@ class Store {
     }
     
 
-    // Desktop
-    getDesktopsData() {
+   
+
+
+    createProduct(product = {id: small_id, name: "", price: "", type: "",  brand: null}) {
         
-        refDesktops.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.desktops.push(doc.data());
-                
-            });
-            
-        })
+        this.products.push(product);
+        console.log('New desktop in store! ');
+        this.showStoreDetails();
     }
 
-
-    createDesktop(desktop = {id: small_id, name: "", price: "", brand: null}) {
-        this.desktops.push(desktop);
-    }
-
-    updateDesktop(id, update) {
-        const desktopIndexAtId = this.desktops.findIndex((desktop) => desktop.id === id);
-        if (desktopIndexAtId > -1 && update) {
-            this.desktops[desktopIndexAtId] = update;
+    updateProduct(id, update) {
+        const productIndexAtId = this.products.findIndex((product) => product.id === id);
+        if (productIndexAtId > -1 && update) {
+            this.products[productIndexAtId] = update;
         }
     }
 
-
-    // Laptop
-    getLaptopsData() {
-        refLaptops.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.laptops.push(doc.data());
-            })
-        })
-    }
-
-    createLaptop(laptop = {id: small_id, name: "", price: "", brand: null}) {
-        this.laptops.push(laptop);
-    }
-
-    updateLaptop(id, update) {
-        const laptopIndexAtId = this.laptops.findIndex((laptop) => laptop.id === id);
-        if (laptopIndexAtId > -1 && update) {
-            this.laptops[laptopIndexAtId] = update;
+    deleteProduct(productId) {
+        const productIndexAtId = this.products.findIndex((product) => product.id === productId);
+        if (productIndexAtId > -1) {
+          this.products.splice(productIndexAtId, 1)
         }
-    }
+      }
 
 
-    // Keyboard
-    getKeyboardsData() {
-        refKeyboards.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.keyboards.push(doc.data());
-            })
-        })
-    }
-
-    createKeyboard(keyboard = {id: small_id, name: "", price: "", brand: null}) {
-        this.keyboards.push(keyboard);
-    }
-
-    updateKeyboards(id, update) {
-        const keyboardIndexAtId = this.keyboards.findIndex((keyboard) => keyboard.id === id);
-        if (keyboardIndexAtId > -1 && update) {
-            this.keyboards[keyboardIndexAtId] = update;
-        }
-    }
-
-    // Headphones
-    getHeadphonesData() {
-        refHeadphones.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.headphones.push(doc.data());
-            })
-        })
-    }
-
-    createHeadphone(headphone = {id: small_id, name: "", price: "", brand: null}) {
-        this.headphones.push(headphone);
-    }
-
-    updateHeadphones(id, update) {
-        const headphoneIndexAtId = this.headphones.findIndex((headphone) => headphone.id === id);
-        if (headphoneIndexAtId > -1 && update) {
-            this.headphones[headphoneIndexAtId] = update;
-        }
-    }
-
-    // Mouse
-    getMiceData() {
-        refMice.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.mice.push(doc.data());
-            })
-        })
-    }
-
-    createMouse(mouse = {id: small_id, name: "", price: "", brand: null}) {
-        this.mice.push(mouse);
-    }
-
-    updateMouse(id, update) {
-        const mouseIndexAtId = this.mice.findIndex((mouse) => mouse.id === id);
-        if (mouseIndexAtId > -1 && update) {
-            this.mice[mouseIndexAtId] = update;
-        }
-    }
+    
 
 
     // GET ALL DATA
 
     getProductsData(){
-        refBrands.onSnapshot((QuerySnapshot) => {
+        refProducts.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
-                this.brands.push(doc.data());
-            })
-        })
-
-        refDesktops.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.products.push(doc.data());
+             this.products.push(doc.data());
                 
             });
             
         })
-
-
-        refLaptops.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.products.push(doc.data());
-            })
-        })
-
-        refKeyboards.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.products.push(doc.data());
-            })
-        })
-
-        refHeadphones.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.products.push(doc.data());
-            })
-        })
         
-        refMice.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-                this.products.push(doc.data());
-            })
-        })
-        this.state = 'finished';
+
+        
     }
 
     
@@ -318,11 +166,7 @@ class Store {
         if(this.state=='finished') {
         console.log(`We have
         ${this.totalBrands} total brands,
-        ${this.totalDesktops} total desktops,
-        ${this.totalLaptops} total laptops,
-        ${this.totalKeyboards} total keyboards,
-        ${this.totalHeadphones} total headphones,
-        ${this.totalMice} total computer mice,
+        ${this.totalProducts} total products,
         `);
         }
     }

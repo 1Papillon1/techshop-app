@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { toJS } from 'mobx';
+import Pagination from "./pagination";
+import { observer } from "mobx-react";
 
 
 import desktopImage from '../images/products/desktop/list-desktop.jpg';
@@ -13,67 +15,73 @@ import mouseImage from '../images/products/desktop/list-mouse.jpg';
 
 function Products({ store, showAside, setShowAside }) {
 
-    
+        
 
-/*
-Napravit posebne varijable za filtriranje koje će definirati 
-koji će se podatci prikazivati, npr. za cijenu 
-priceRange
-*/
+
 
     // states
     const [loading, setLoading] = useState(true);
-    const [desktopData, setDesktopData] = useState([]);
-    const [laptopsData, setLaptopsData] = useState([]);
-    const [keyboardsData, setKeyboardsData] = useState([]);
-    const [headphonesData, setHeadphonesData] = useState([]);
-    const [mouseData, setMouseData] = useState([]);
     const [data, setData] = useState([])
 
     // define store products
-    const { brands, desktop, laptops, keyboards, headphones, mouse, products } = store;
+    const { brands, products } = store;
     const brandsJS = toJS(brands);
-    const productsJS = toJS(products);
+    const productData = products;
 
     // filtering 
     const [price, setPrice] = useState();
 
 
     // sorting
-    const dataAscending = [...productsJS].sort((a, b) =>
+    const dataAscending = [...data].sort((a, b) =>
         a.name > b.name ? 1 : -1,
     );
 
-    const dataDescending = [...productsJS].sort((a, b) =>
+    const dataDescending = [...data].sort((a, b) =>
         a.name < b.name ? 1 : -1,
     );
 
-    const dataAscendingPrice = [...productsJS].sort((a, b) =>
-        a.price > b.price ? 1 : -1,
+    const dataAscendingPrice = [...data].sort((a, b) =>
+        a.price >= b.price ? 1 : -1,
+        
     );
 
-    const dataDescendingPrice = [...productsJS].sort((a, b) =>
-        a.price < b.price ? 1 : -1,
+    const dataDescendingPrice = [...data].sort((a, b) =>
+        a.price <= b.price ? 1 : -1,
     );
 
-
+    
+    // React.useEffect(() => test); - probat ovo za mobx
 
     const memoizedCallback = useCallback(
         ()=> {
             
-            
+            const filteredItems = data.filter((product) =>
+                product.name.toLowerCase().includes(searchValue.toLowerCase())
+            );
             setTimeout(() => {
             setLoading(false);
             if (sortOption === 'sortName') {
                 setData(dataAscending);
+                
             } else if (sortOption === 'sortNameDesc') {
                 setData(dataDescending);
+                
             }else if (sortOption === 'sortPrice') {
                 setData(dataAscendingPrice);
+                
             } else if (sortOption === 'sortPriceDesc') {
                 setData(dataDescendingPrice);
-            } else {
-                setData(productsJS);
+                
+            } else if (searchValue.length > 0) {
+                setData(filteredItems);
+            }
+            
+            else {
+             // setData(productsJS.slice(indexOfFirstRec,indexOfLastRec));
+             setData(toJS(productData));
+            
+                
             }
             
         }, 100)
@@ -84,13 +92,19 @@ priceRange
     
 
     useEffect(() => {
+
+
         
             memoizedCallback();
+        
         
             
     
     },[data])
 
+
+
+    
     
     // search bar
     const [searchValue, setSearchValue] = useState('');
@@ -100,13 +114,7 @@ priceRange
         const searchValue = e.target.value;
         setSearchValue(searchValue);
 
-        
-        const filteredItems = data.filter((product) =>
-        product.name.toLowerCase().includes(searchValue.toLowerCase())
-        );
-    
- //       setDataFiltered(filteredItems);
-        setData(filteredItems);
+       setSortOption('default');
         
     }
 
@@ -115,22 +123,35 @@ priceRange
 
     const handleSort = (e) => {
         setSortOption(e.target.value);
-    
+        
 
     }
     
+    // delete
 
     
+
     // aside
     let toggleAside = () => {
         showAside = !showAside;
         setShowAside(showAside);
         
     }
+
+    
+    
+    
         
+    // pagination
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(4);
+
+    const indexOfLastRec = currentPage*recordsPerPage;
+    const indexOfFirstRec = indexOfLastRec-recordsPerPage;
+
+    const nPages = Math.ceil(data.length / recordsPerPage);
     
-    
-  
+
     
     
     return (
@@ -205,47 +226,36 @@ priceRange
                         </div>
                 )}
 
-                {!loading && (
+                
+
+                {!loading &&  (
                     <div className='flex flex--2'>
                         {data.map(product => (
                             <div className='flex__box flex__box--list'>
                                 <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
                                 <h2 className='flex__box__title'>{product.name}</h2>
                                 <h3 className='flex__box__subtitle'>€{product.price}</h3>
+
+                                <div className='flex__box__footer'>
+                                    <button className='flex__box__button'>View</button>
+                                    <button className='flex__box__button flex__box__button--primary'>Edit</button>
+                                    <button className='flex__box__button flex__box__button--secondary' >Delete</button>
+                                </div>
                             </div>
                         ))}
 
-                        
+                <Pagination 
+                        nPages={nPages}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
                     </div>
-                )}
+                        )}
 
-                {/*!loading && searchValue.length == 0 && (
-                    <div className='flex flex--2'>
-                        {data.map(product => (
-                            <div className='flex__box flex__box--list'>
-                                <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
-                                <h2 className='flex__box__title'>{product.name}</h2>
-                                <h3 className='flex__box__subtitle'>€{product.price}</h3>
-                            </div>
-                        ))}
-
+                
+                    
                         
-                    </div>
-                        )*/}
-
-                {/*!loading && searchValue.length > 0 && (
-                    <div className='flex flex--2'>
-                        {dataFiltered.map(product => (
-                            <div className='flex__box flex__box--list'>
-                                <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
-                                <h2 className='flex__box__title'>{product.name}</h2>
-                                <h3 className='flex__box__subtitle'>€{product.price}</h3>
-                            </div>
-                        ))}
-
-                        
-                    </div>
-                        )*/}
+                   
 
 
             </div>

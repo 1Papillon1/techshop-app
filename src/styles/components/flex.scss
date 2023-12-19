@@ -7,6 +7,13 @@ $fontColorPrimary : #FFFFFF;
 $fontColorSecondary : #999999;
 $borderColor : #303030;
 
+$buttonPrimaryFontColor: #fcfcfc;
+$fontPrimaryFamily: 'Urbanist', sans-serif;
+
+$viewButtonBackgroundColor: #703BF7;
+$editButtonBackgroundColor : green;
+$deleteButtonBackgroundColor : red;
+
 .flex {
     display: flex;
     justify-content: space-between;
@@ -15,7 +22,6 @@ $borderColor : #303030;
         margin-top: 10rem;
         width: 49.5rem;
         flex-wrap: wrap;
-        
     }
     
     &--5 {
@@ -31,6 +37,9 @@ $borderColor : #303030;
     }
 
     &__box {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
         &--primary {
             width: 45%;
             padding: 15vh 0;
@@ -46,6 +55,7 @@ $borderColor : #303030;
         &--list {
             width: 20rem;
             background-color: $mainColor;
+            height: 30rem;
             padding: 1rem 1rem;
             margin: 1rem 1rem;
             color: $fontColorPrimary;
@@ -58,11 +68,35 @@ $borderColor : #303030;
             border-radius: 6px;
         }
         &__title {
-            font-size: 24px;
+            font-size: 20px;
+            font-weight: normal;
         }
         &__subtitle {
             font-size: 18px;
             color: $fontColorSecondary;
+        }
+
+        
+
+        &__button {
+            font-family: $fontPrimaryFamily;
+            color: $buttonPrimaryFontColor;
+            background-color: $viewButtonBackgroundColor;
+            border: 1px solid $borderColor;
+            padding: 10px 20px;
+            border-radius: 5px;
+            width: 100%;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            &--primary {
+                background-color: $editButtonBackgroundColor;
+            }
+            &--secondary {
+                background-color: $deleteButtonBackgroundColor;
+            }
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
