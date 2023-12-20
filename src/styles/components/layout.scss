@@ -10,4 +10,8 @@ $mainColor: #1A1A1A;
     width: 98vw;
     border-radius: 5px;
     height: 60rem;
+    &--secondary {
+        display: flex;
+        justify-content: center;
+    }
 }

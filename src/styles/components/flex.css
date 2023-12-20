@@ -36,6 +36,12 @@
   background-repeat: no-repeat;
   padding-bottom: 35vh;
 }
+.flex__box--single {
+  width: 50%;
+  margin-top: 7rem;
+  background-image: url("../../images/products/desktop/list-desktop.jpg");
+  background-size: 100% auto;
+}
 .flex__box--list {
   width: 20rem;
   background-color: #1A1A1A;
@@ -53,6 +59,11 @@
 .flex__box__title {
   font-size: 20px;
   font-weight: normal;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 260px;
+  height: 1.2em;
+  white-space: nowrap;
 }
 .flex__box__subtitle {
   font-size: 18px;
@@ -70,7 +81,7 @@
   margin: 0.5rem 0;
 }
 .flex__box__button--primary {
-  background-color: green;
+  background-color: rgb(0, 144, 144);
 }
 .flex__box__button--secondary {
   background-color: red;

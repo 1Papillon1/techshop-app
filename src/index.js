@@ -12,6 +12,7 @@ import Store from './Store/store';
 // ROUTES
 import Root from './routes/root';
 import Shop from './routes/shop';
+import Item from './routes/item';
 
 const techStore = new Store();
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
     path: "/products",
     element: <Shop store={techStore}/>,
   },
+  {
+    path: "/products/product",
+    element: <Item store={techStore}/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -7,6 +7,8 @@ $buttonPrimaryBackgroundColor: #1A1A1A;
 $buttonBorderColor: #303030;
 $fontPrimaryFamily: 'Urbanist', sans-serif;
 
+$createButtonBackgroundColor : green;
+
 .button {
     text-decoration: none;
     font-weight: bold;
@@ -79,6 +81,7 @@ $fontPrimaryFamily: 'Urbanist', sans-serif;
             cursor: pointer;
         }
         &--right {
+            background-color: $createButtonBackgroundColor;
             position: absolute;
             float: right;
             right: 3rem;
@@ -95,6 +98,8 @@ $fontPrimaryFamily: 'Urbanist', sans-serif;
             cursor: pointer;
         }
     }
+
+    
 
     &--form {
         padding: 15px 25px;
@@ -113,5 +118,7 @@ $fontPrimaryFamily: 'Urbanist', sans-serif;
             margin-left: 1rem;
         }
     }
+
+    
     
 }

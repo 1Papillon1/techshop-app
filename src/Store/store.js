@@ -17,12 +17,14 @@ export const small_id = uuid().slice(0,8);
 
 class Store {
 
-    
+    state = "pending";
+
     brands = [];
 
 
     products = [];
-    state = "pending";
+    currentProduct = [];
+    productActions = "";
 
     
     
@@ -31,29 +33,31 @@ class Store {
         
         makeObservable(this, {
             products: observable,
+            currentProduct: observable,
+            brands: observable,
             state: observable,
+            productActions: observable,
+
             totalProducts: computed,
             storeDetails: computed,
 
             getProductsData: action,
-            
             getProductsByBrand: action,
             assignBrandToProduct: action,
 
             createProduct: action,
-
             deleteProduct: action,
+
         });
       
         
         
-        runInAction(() => {
-            this.getProductsData();
-            
-        })
         
        
-        
+        runInAction(() => {
+            this.getBrandsData();
+            this.getProductsData();
+        });
         
         
     }
@@ -87,6 +91,21 @@ class Store {
             })
         })
     }
+
+    getProductsData(){
+
+        refProducts.onSnapshot((QuerySnapshot) => {
+            QuerySnapshot.forEach((doc) => {
+             this.products.push(doc.data());
+            
+            });
+            
+        })
+        
+
+        
+    }
+
 
     createBrand(brand = {id: small_id, name: ""}) {
         this.brands.push(brand);
@@ -123,7 +142,7 @@ class Store {
     createProduct(product = {id: small_id, name: "", price: "", type: "",  brand: null}) {
         
         this.products.push(product);
-        console.log('New desktop in store! ');
+        console.log('New product in the store!');
         this.showStoreDetails();
     }
 
@@ -136,9 +155,10 @@ class Store {
 
     deleteProduct(productId) {
         const productIndexAtId = this.products.findIndex((product) => product.id === productId);
-        if (productIndexAtId > -1) {
-          this.products.splice(productIndexAtId, 1)
-        }
+        this.products.splice(productIndexAtId, 1);
+        console.log(productIndexAtId);
+        console.log('Product deleted from the store!')
+        this.showStoreDetails();
       }
 
 
@@ -147,28 +167,15 @@ class Store {
 
     // GET ALL DATA
 
-    getProductsData(){
-        refProducts.onSnapshot((QuerySnapshot) => {
-            QuerySnapshot.forEach((doc) => {
-             this.products.push(doc.data());
-                
-            });
-            
-        })
-        
+    
 
-        
+    get storeDetails() {
+        return `We have ${this.totalProducts} total products and ${this.totalBrands} total brands.`
     }
-
     
 
     showStoreDetails() {
-        if(this.state=='finished') {
-        console.log(`We have
-        ${this.totalBrands} total brands,
-        ${this.totalProducts} total products,
-        `);
-        }
+        console.log(this.storeDetails);
     }
 
     

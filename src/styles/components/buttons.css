@@ -68,6 +68,7 @@
   cursor: pointer;
 }
 .button--primary--right {
+  background-color: green;
   position: absolute;
   float: right;
   right: 3rem;

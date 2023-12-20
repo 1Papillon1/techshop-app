@@ -11,7 +11,7 @@ $buttonPrimaryFontColor: #fcfcfc;
 $fontPrimaryFamily: 'Urbanist', sans-serif;
 
 $viewButtonBackgroundColor: #703BF7;
-$editButtonBackgroundColor : green;
+$editButtonBackgroundColor : rgb(0, 144, 144);
 $deleteButtonBackgroundColor : red;
 
 .flex {
@@ -52,6 +52,12 @@ $deleteButtonBackgroundColor : red;
             background-repeat: no-repeat;
             padding-bottom: 35vh;
         }
+        &--single {
+            width: 50%;
+            margin-top: 7rem;
+            background-image: url("../../images/products/desktop/list-desktop.jpg");
+            background-size: 100% auto;
+        }
         &--list {
             width: 20rem;
             background-color: $mainColor;
@@ -70,6 +76,13 @@ $deleteButtonBackgroundColor : red;
         &__title {
             font-size: 20px;
             font-weight: normal;
+            text-overflow: ellipsis;
+            overflow: hidden; 
+            width: 260px; 
+            height: 1.2em; 
+            white-space: nowrap;
+
+  
         }
         &__subtitle {
             font-size: 18px;

@@ -11,9 +11,28 @@
   font-weight: bold;
   font-size: 60px;
 }
+.card__title--secondary {
+  font-size: 32px;
+}
 .card__subtitle {
   font-family: "Urbanist", sans-serif;
   font-size: 18px;
   color: #999999;
   margin-bottom: 5rem;
+}
+.card__subtitle--secondary {
+  font-size: 24px;
+  margin-bottom: 2rem;
+}
+.card__block__subtitle {
+  color: white;
+  font-size: 24px;
+}
+.card__block__paragraph {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 2rem;
+}
+.card--single {
+  width: 40%;
 }/*# sourceMappingURL=card.css.map */

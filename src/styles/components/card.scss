@@ -14,11 +14,32 @@ $fontPrimaryFamily : 'Urbanist', sans-serif;
         font-family: 'Urbanist', sans-serif;
         font-weight: bold;
         font-size: 60px;
+        &--secondary {
+            font-size: 32px;
+        }
     }
     &__subtitle {
         font-family: 'Urbanist', sans-serif;
         font-size: 18px;
         color: $fontColorSecondary;
         margin-bottom: 5rem;
+        &--secondary {
+            font-size: 24px;
+            margin-bottom: 2rem;
+        }
+    }
+    &__block {
+        &__subtitle {
+            color: white;
+            font-size: 24px;
+        }
+        &__paragraph {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 2rem;
+        }
+    }
+    &--single {
+        width: 40%;
     }
 }

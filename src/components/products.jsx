@@ -2,13 +2,10 @@ import React, { useState, useEffect, useCallback } from "react";
 import { toJS } from 'mobx';
 import Pagination from "./pagination";
 import { observer } from "mobx-react";
-
+import { Link } from "react-router-dom";
 
 import desktopImage from '../images/products/desktop/list-desktop.jpg';
-import laptopsImage from '../images/products/desktop/list-laptop.jpg';
-import keyboardsImage from '../images/products/desktop/list-keyboard.jpg';
-import headphonesImage from '../images/products/desktop/list-headphones.jpg';
-import mouseImage from '../images/products/desktop/list-mouse.jpg';
+
 
 
 
@@ -17,14 +14,14 @@ function Products({ store, showAside, setShowAside }) {
 
         
 
-
+    
 
     // states
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([])
 
     // define store products
-    const { brands, products } = store;
+    const { brands, products, deleteProduct } = store;
     const brandsJS = toJS(brands);
     const productData = products;
 
@@ -51,8 +48,9 @@ function Products({ store, showAside, setShowAside }) {
     );
 
     
-    // React.useEffect(() => test); - probat ovo za mobx
+   /*
 
+    
     const memoizedCallback = useCallback(
         ()=> {
             
@@ -89,21 +87,33 @@ function Products({ store, showAside, setShowAside }) {
         [data]
     )
 
+
+*/
+
+const memoizedCallback = useCallback(
+    ()=> {
+        
+        
+        setTimeout(() => {
+        if (products) {
+        setLoading(false);
+        }
+        
+        
+    }, 500)
+    },
+    [products]
+)
+
+
+   
+useEffect(() => {
+
     
+    memoizedCallback();
+}, [products])
 
-    useEffect(() => {
-
-
-        
-            memoizedCallback();
-        
-        
-            
     
-    },[data])
-
-
-
     
     
     // search bar
@@ -127,8 +137,8 @@ function Products({ store, showAside, setShowAside }) {
 
     }
     
-    // delete
-
+    
+    
     
 
     // aside
@@ -138,7 +148,26 @@ function Products({ store, showAside, setShowAside }) {
         
     }
 
-    
+    // delete
+    const handleDeleteProduct = (product) => {
+
+        store.deleteProduct(product);
+        
+    }
+
+    // edit 
+    /*
+    const handleUpdateProduct = (pet) => {
+        pet.name = prompt("Name of the pet", pet.name);
+        pet.type = prompt("Type of the pet", pet.type);
+        pet.breed = prompt("Breed of the pet", pet.breed);
+        const ownerId = prompt("Owner's Id of the pet", pet.owner?.id);
+        store.updatePet(pet.id, pet);
+        if (ownerId !== pet.owner?.id) {
+          store.assignOwnerToPet(ownerId, pet.id);
+        }
+      };
+      */
     
     
         
@@ -157,7 +186,7 @@ function Products({ store, showAside, setShowAside }) {
     return (
         <div className='layout'>
             
-
+        
             <div className='panel'>
                 <h2 className='panel__title'>Search our Shop for High Quality Products</h2>
                 <h3 className='panel__subtitle'>Welcome to TechShop. We offer you the best 
@@ -228,18 +257,27 @@ function Products({ store, showAside, setShowAside }) {
 
                 
 
-                {!loading &&  (
+                {!loading && products.length > 0 &&(
                     <div className='flex flex--2'>
-                        {data.map(product => (
+                        
+                        {products.map(product => (
                             <div className='flex__box flex__box--list'>
                                 <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
                                 <h2 className='flex__box__title'>{product.name}</h2>
                                 <h3 className='flex__box__subtitle'>€{product.price}</h3>
 
                                 <div className='flex__box__footer'>
-                                    <button className='flex__box__button'>View</button>
+                                    <Link to={{pathname: "/products/product"}}>
+                                        <button className='flex__box__button' onClick={() => {
+                                            store.currentProduct = product;
+                                        }}>
+                                            View
+                                        </button>
+                                        
+                                    
+                                    </Link>
                                     <button className='flex__box__button flex__box__button--primary'>Edit</button>
-                                    <button className='flex__box__button flex__box__button--secondary' >Delete</button>
+                                    <button className='flex__box__button flex__box__button--secondary' onClick={() => handleDeleteProduct(product.id)}>Delete</button>
                                 </div>
                             </div>
                         ))}
@@ -265,4 +303,4 @@ function Products({ store, showAside, setShowAside }) {
     )
 }
 
-export default Products;
+export default observer(Products);
