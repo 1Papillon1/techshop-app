@@ -21,7 +21,7 @@ function Products({ store, showAside, setShowAside }) {
     const [data, setData] = useState([])
 
     // define store products
-    const { brands, products, deleteProduct } = store;
+    const { brands, products, currentBrand, deleteProduct } = store;
     const brandsJS = toJS(brands);
     const productData = products;
 
@@ -142,9 +142,20 @@ useEffect(() => {
     
 
     // aside
-    let toggleAside = () => {
+    let toggleAsideCreate = () => {
         showAside = !showAside;
         setShowAside(showAside);
+        store.productActions = 'add';
+    }
+
+    let toggleAsideEdit = () => {
+        showAside = !showAside;
+        setShowAside(showAside);
+
+        store.productActions = 'edit';
+        
+        store.currentBrand = brands.filter((brand) => brand.id == (store.currentProduct.brand));
+        console.log(store.currentBrand[0].name);
         
     }
 
@@ -155,19 +166,9 @@ useEffect(() => {
         
     }
 
-    // edit 
-    /*
-    const handleUpdateProduct = (pet) => {
-        pet.name = prompt("Name of the pet", pet.name);
-        pet.type = prompt("Type of the pet", pet.type);
-        pet.breed = prompt("Breed of the pet", pet.breed);
-        const ownerId = prompt("Owner's Id of the pet", pet.owner?.id);
-        store.updatePet(pet.id, pet);
-        if (ownerId !== pet.owner?.id) {
-          store.assignOwnerToPet(ownerId, pet.id);
-        }
-      };
-      */
+    
+
+    
     
     
         
@@ -230,7 +231,7 @@ useEffect(() => {
 
                 </div>
             </div>
-            <button className='button button--primary button--primary--right' onClick={toggleAside}>Add Product</button>
+            <button className='button button--primary button--primary--right' onClick={toggleAsideCreate}>Add Product</button>
 
 
             <div className='options'>
@@ -276,7 +277,7 @@ useEffect(() => {
                                         
                                     
                                     </Link>
-                                    <button className='flex__box__button flex__box__button--primary'>Edit</button>
+                                    <button className='flex__box__button flex__box__button--primary' onClick={() => toggleAsideEdit(store.currentProduct=product)}>Edit</button>
                                     <button className='flex__box__button flex__box__button--secondary' onClick={() => handleDeleteProduct(product.id)}>Delete</button>
                                 </div>
                             </div>

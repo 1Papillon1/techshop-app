@@ -21,7 +21,6 @@ function Item({ store }) {
     return (
       <>
 
-        <Navigation />
         <ProductView store={store} />
         
       </>

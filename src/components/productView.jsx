@@ -14,7 +14,7 @@ function ProductView({ store }) {
     // states
     const [loading, setLoading] = useState(true);
 
-    const location = useLocation();
+    
     let { currentProduct } = store;
 
     console.log(currentProduct);

@@ -24,6 +24,10 @@ class Store {
 
     products = [];
     currentProduct = [];
+
+    currentBrand = [];
+
+
     productActions = "";
 
     
@@ -146,11 +150,14 @@ class Store {
         this.showStoreDetails();
     }
 
-    updateProduct(id, update) {
-        const productIndexAtId = this.products.findIndex((product) => product.id === id);
-        if (productIndexAtId > -1 && update) {
-            this.products[productIndexAtId] = update;
-        }
+    updateProduct(currentProduct) {
+        const productIndexAtId = this.products.findIndex((product) => product.id === currentProduct.id);
+        
+            this.products[productIndexAtId].name = currentProduct.name;
+            this.products[productIndexAtId].price = currentProduct.price;
+            this.products[productIndexAtId].brand = currentProduct.brand;
+            this.products[productIndexAtId].type = currentProduct.type;
+        
     }
 
     deleteProduct(productId) {

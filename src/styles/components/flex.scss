@@ -53,10 +53,11 @@ $deleteButtonBackgroundColor : red;
             padding-bottom: 35vh;
         }
         &--single {
-            width: 50%;
-            margin-top: 7rem;
+            width: 40%;
+            margin-top: 5rem;
             background-image: url("../../images/products/desktop/list-desktop.jpg");
             background-size: 100% auto;
+            margin-right: 5rem;
         }
         &--list {
             width: 20rem;
