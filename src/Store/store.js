@@ -2,6 +2,7 @@ import { action, autorun, computed, makeObservable, observable, runInAction, con
 import firebase from "../services/firebase";
 import { toJS } from 'mobx';
 import { v4 as uuid } from 'uuid';
+import { toHaveDisplayValue } from "@testing-library/jest-dom/matchers";
 
 
 configure({
@@ -20,30 +21,73 @@ class Store {
     state = "pending";
 
     brands = [];
-
-
     products = [];
+
+    // For creating and editing
     currentProduct = [];
-
     currentBrand = [];
-
-
+    selectedBrand = [];
+    selectedBrandId = 1;
     productActions = "";
 
+    // For filtering
+    brandIds = [];
+    selectedBrands = [];
+    selectedBrandsId = [];
+    checkedTypes = [];
+
+
+    oldProducts = [];
+    filteredProducts = [];
+    sortedProducts = [];
+
+    sortOption = "ascending";
+
     
+    searchState = false;
+    searchValue = "";
+
+    // For pagination
+    currentProducts = null;
+    currentPage = 1;
+    recordsPerPage = 4;
+    nPages = 0;
+    indexOfLastRec = 0;
+    indexOfFirstRec = 0;
+
+    // const nPages = Math.ceil(store.products.length / recordsPerPage);
     
 
     constructor () {
         
         makeObservable(this, {
+            state: observable,
+
             products: observable,
             currentProduct: observable,
-            brands: observable,
-            state: observable,
+            oldProducts: observable,
+            filteredProducts: observable,
+            sortedProducts: observable,
             productActions: observable,
+            sortOption: observable,
+            searchValue: observable,
+            searchState: observable,
+
+            brands: observable,
+            selectedBrands: observable,
+            selectedBrandId: observable,
+            checkedTypes: observable,
+            brandIds: observable,
+            selectedBrandsId: observable,
+
+            currentProducts: observable,
+
 
             totalProducts: computed,
             storeDetails: computed,
+            filtering: computed,
+
+
 
             getProductsData: action,
             getProductsByBrand: action,
@@ -61,12 +105,111 @@ class Store {
         runInAction(() => {
             this.getBrandsData();
             this.getProductsData();
+            this.getCurrentProductsData();
         });
+        
+        autorun(() => {
+            this.setSorted();
+            this.setPagination();
+        })
+    }
+
+
+    
+
+    getCurrentProductsData() {
+        this.indexOfLastRec = this.currentPage*this.recordsPerPage;
+        this.indexOfFirstRec = this.indexOfLastRec-this.recordsPerPage;
+        this.currentProducts = this.products;
         
         
     }
 
-   
+    
+
+    
+
+    get searched() {
+
+        
+
+        if (this.searchState) {
+            this.products = this.oldProducts.filter((item) => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+            
+        } else if (!this.searchState) {
+            this.products = this.oldProducts;
+        }
+
+        
+    }
+
+    setSearched() {
+        return this.searched;
+    }
+
+    get sorted() {
+        
+
+            if (this.sortOption === "descendingName") {
+                this.sortedProducts = this.products.sort((a, b) => 
+                (
+                    a.name < b.name ? -1 : 1
+                ))
+            } else if (this.sortOption === "ascendingPrice") {
+
+                this.sortedProducts = this.products.sort((a, b) => 
+                (
+                    a.price > b.price ? -1 : 1
+                ))
+
+            } else if (this.sortOption === "descendingPrice") {
+                
+                this.sortedProducts = this.products.sort((a, b) => 
+                (
+                    a.price < b.price ? -1 : 1
+                ))
+
+            } else {
+                this.sortedProducts = this.products.sort((a, b) => 
+                (
+                    a.name > b.name ? -1 : 1
+                ))
+            }
+
+            this.products = this.sortedProducts;
+        
+    }
+
+    setSorted() {
+        return this.sorted;
+    }
+    
+
+    get filtering() {
+        if (this.checkedTypes.length > 0 && this.selectedBrandsId.length > 0) {
+            this.filteredProducts = this.products.filter((product) => {
+                return this.checkedTypes.includes(product.type)
+            }).filter((product) => {
+                return this.selectedBrandsId.includes(product.brand);
+            })
+        } else if (this.checkedTypes.length > 0) {
+            this.filteredProducts = this.products.filter((product) => {
+                return this.checkedTypes.includes(product.type)
+            })
+        } else if (this.selectedBrandsId.length > 0) {
+            this.filteredProducts = this.products.filter((product) => {
+                return this.selectedBrandsId.includes(product.brand);
+            })
+        } else {
+            this.filteredProducts = [];
+        }
+    }
+
+    setFiltering() {
+        return this.filtering;
+        
+    }
+
 
     get totalBrands() {
         return this.brands.length;
@@ -80,18 +223,15 @@ class Store {
 
 
     
-    get storeDetails() {
-        return `We have 
-        ${this.totalProducts} total products,
-        
-        `
-    }
+    
 
     // Brand
     getBrandsData() {
         refBrands.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
                 this.brands.push(doc.data());
+                
+                
             })
         })
     }
@@ -101,12 +241,13 @@ class Store {
         refProducts.onSnapshot((QuerySnapshot) => {
             QuerySnapshot.forEach((doc) => {
              this.products.push(doc.data());
-            
+             this.oldProducts.push(doc.data());
+             
             });
             
         })
         
-
+        
         
     }
 
@@ -167,6 +308,7 @@ class Store {
         console.log('Product deleted from the store!')
         this.showStoreDetails();
       }
+
 
 
     

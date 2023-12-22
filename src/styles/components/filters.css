@@ -1,0 +1,47 @@
+/*
+    filters.scss
+*/
+div.css-13cymwt-control {
+  background-color: #1A1A1A;
+  color: #fcfcfc;
+  box-shadow: #303030;
+  border-color: #303030;
+}
+
+div.css-1dimb5e-singleValue {
+  color: #fcfcfc;
+}
+
+#react-select-3-placeholder {
+  color: #fcfcfc;
+}
+
+div.css-13cymwt-control > * {
+  background-color: #1A1A1A;
+  color: #fcfcfc;
+}
+
+div.css-t3ipsp-control {
+  background-color: #1A1A1A;
+  color: #fcfcfc;
+  border: 1px solid #303030;
+  box-shadow: none;
+}
+div.css-t3ipsp-control:hover {
+  border: 1px solid #303030;
+  box-shadow: none;
+}
+
+div.css-1nmdiq5-menu {
+  background-color: #1A1A1A;
+  color: #fcfcfc;
+  border: #303030;
+}
+
+div.css-1nmdiq5-menu div {
+  border: #303030;
+  background-color: #1A1A1A;
+}
+div.css-1nmdiq5-menu div:hover {
+  border: 1px solid #303030;
+}/*# sourceMappingURL=filters.css.map */

@@ -1,0 +1,66 @@
+/*
+    filters.scss
+*/
+
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+$boxBackgroundColor: #1A1A1A;
+$boxBorderColor: #303030;
+
+
+
+
+div.css-13cymwt-control {
+    background-color: $boxBackgroundColor;
+    color: $textFontColor;
+    box-shadow: $boxBorderColor;
+    border-color: $boxBorderColor;
+    
+    
+}
+
+div.css-1dimb5e-singleValue {
+    color: $textFontColor;
+}
+
+#react-select-3-placeholder {
+    color: $textFontColor;
+}
+
+
+div.css-13cymwt-control > * {
+    background-color: $boxBackgroundColor;
+    color: $textFontColor;
+}
+
+div.css-t3ipsp-control {
+    background-color: $boxBackgroundColor;
+    color: $textFontColor;
+    border: 1px solid $boxBorderColor;
+    box-shadow: none;
+    &:hover {
+        border: 1px solid $boxBorderColor;
+        box-shadow: none;
+    }
+}
+
+div.css-1nmdiq5-menu {
+    background-color: $boxBackgroundColor;
+    color: $textFontColor;
+    border: $boxBorderColor;
+}
+
+div.css-1nmdiq5-menu div {
+    border: $boxBorderColor;
+    
+        
+        background-color: $boxBackgroundColor;
+        &:hover {
+        border: 1px solid $boxBorderColor;
+        }
+        
+        
+    
+}

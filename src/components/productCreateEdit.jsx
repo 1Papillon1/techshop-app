@@ -74,8 +74,10 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
 
     // aside
     let toggleAside = () => {
-        showAside = !showAside;
+        
+        showAside = !showAside
         setShowAside(showAside);
+        
     }
 
 
@@ -86,15 +88,15 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
         
 
         
-            store.createProduct({ id: small_id, name, price, type, brandId });
+            store.createProduct({ id: small_id, name, price, type, brand: store.selectedBrandId });
         
 
-    console.log("Product added to Store. Brand: " + brand + "Name: ", name, ", Price: $" + price + " type");
+    console.log("Product added to Store. Brand: " + brand + "Name: ", name, ", Price: $" + price + " type: " + type);
+    console.log(store.products);
 
     setProductName('');
     setProductPrice('');
     setProductBrand([]);
-    setProductBrandId(1);
     setProductTypeOption('desktop');
     
 
@@ -142,13 +144,19 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
 
     const handleProductBrand = (e) => {
         let chosenBrand = brands.filter((brand) => brand.name==(e.target.value));
+        
+        store.selectedBrand = brands.filter((brand) => brand.name==(e.target.value));
         if (store.productActions === 'add') {
         setProductBrand(e.target.value);
         setProductBrandId(chosenBrand[0].id);
+        
         } else (
             currentProduct.brand = chosenBrand[0].id
         )
 
+        store.selectedBrandId = store.selectedBrand[0].id;
+        
+        
     }
 
     
