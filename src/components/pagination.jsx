@@ -41,12 +41,14 @@ function Pagination({ nPages, currentPage, setCurrentPage}) {
                         </a>
                     </li>
 
+                    {pageNumbers.length >= 5 && currentPage !== 1 && (
                     <li className="pagination__item">
                         <a className="pagination__link pagination__link--first"
                         >
                             ...
                         </a>
                     </li>
+                    )}
                 </>
                 ) : 
                 (
@@ -85,12 +87,15 @@ function Pagination({ nPages, currentPage, setCurrentPage}) {
                 {currentPage !== pageNumbers.length ? 
                 (
                     <>
+                    {currentPage <= pageNumbers.length-3 && (
                     <li className="pagination__item">
                         <a className="pagination__link pagination__link--last"
                         >
                             ...
                         </a>
                     </li>
+                    )
+                    }
                     <li key={pageNumbers.length} 
                     className={`pagination__item`} >
                         <a onClick={() => (setCurrentPage(pageNumbers.length))} 

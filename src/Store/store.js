@@ -33,6 +33,7 @@ class Store {
     // For filtering
     brandIds = [];
     selectedBrands = [];
+    filterState = false;
     selectedBrandsId = [];
     checkedTypes = [];
 
@@ -136,10 +137,22 @@ class Store {
         
 
         if (this.searchState) {
+            
+            if (this.filteredProducts.length > 0 && this.searchValue.length > 0) {
+                this.filteredProducts = this.filteredProducts.filter((item) => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+                this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+                
+            } else {
             this.products = this.oldProducts.filter((item) => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+            
+            }
             
         } else if (!this.searchState) {
             this.products = this.oldProducts;
+            this.setFiltering();
+            console.log(this.filteredProducts.map((item) => {
+                return item.name;
+            }));
         }
 
         
@@ -149,64 +162,68 @@ class Store {
         return this.searched;
     }
 
+
     get sorted() {
         
         if (this.filteredProducts.length > 0) {
             if (this.sortOption === "descendingName") {
-                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.sort((a, b) => 
                 (
                     a.name > b.name ? -1 : 1
                 ))
             } else if (this.sortOption === "ascendingPrice") {
 
-                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.sort((a, b) => 
                 (
                     a.price < b.price ? -1 : 1
                 ))
 
             } else if (this.sortOption === "descendingPrice") {
                 
-                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.sort((a, b) => 
                 (
                     a.price > b.price ? -1 : 1
                 ))
 
             } else {
-                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.sort((a, b) => 
                 (
                     a.name < b.name ? -1 : 1
                 ))
             }
-            console.log(this.sortedProducts);
+
             this.filteredProducts = this.sortedProducts;
+            
             this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
         } else {
             if (this.sortOption === "descendingName") {
-                this.sortedProducts = this.products.slice().sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.name > b.name ? -1 : 1
                 ))
             } else if (this.sortOption === "ascendingPrice") {
 
-                this.sortedProducts = this.products.slice().sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.price < b.price ? -1 : 1
                 ))
 
             } else if (this.sortOption === "descendingPrice") {
                 
-                this.sortedProducts = this.products.slice().sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.price > b.price ? -1 : 1
                 ))
 
             } else {
-                this.sortedProducts = this.products.slice().sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.name < b.name ? -1 : 1
                 ))
             }
             this.products = this.sortedProducts
+
+            this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
         }
             
     }
@@ -217,45 +234,30 @@ class Store {
     
 
     get filtering() {
-        if (this.checkedTypes.length > 0) {
-
-            
-            
-            this.filteredProducts = this.products.filter((product) => {
-                
-                return this.checkedTypes.includes(product.type);
-            
-            });
-
-            if (this.selectedBrandsId.length > 0) {
-                this.filteredProducts = this.filteredProducts.filter((product) => {
-            
-                    return this.selectedBrandsId.includes(product.brand);
-                
-                });
-            }
-
-            
-
-        } else if (this.selectedBrandsId.length > 0) {
-
-            if (this.checkedTypes.length > 0) {
-                this.filteredProducts = this.products.filter((product) => {
-            
-                    return this.selectedBrandsId.includes(product.brand);
-                
-                });
-            } else {
-            this.filteredProducts = this.products.filter((product) => {
-            
-                return this.selectedBrandsId.includes(product.brand);
-                
-            });
-            console.log(this.selectedBrandsId);
-            }
         
-        } else {
+
+        if (this.selectedBrandsId.length === 0 && this.checkedTypes.length === 0) {
+            this.filterState = false;
+        }
+
+        if (this.filterState) {
+
+        this.filteredProducts = this.products.filter((product) =>
+            
+            (this.checkedTypes.length === 0 || this.checkedTypes.includes(product.type)) &&
+            (this.selectedBrandsId.length === 0 || this.selectedBrandsId.includes(product.brand))
+            
+        )
+        }
+
+       
+        else {
             this.filteredProducts = [];
+
+        }
+
+        if (this.sortedProducts.length > 0) {
+            this.setSorted();
         }
         
         this.currentPage = 1;
@@ -263,38 +265,6 @@ class Store {
         this.indexOfFirstRec = this.indexOfLastRec-this.recordsPerPage;
         
         this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
-
-        
-        
-        /* else if (this.checkedTypes.length > 0) {
-            this.filteredProducts = this.products.filter((product) => {
-                return this.checkedTypes.includes(product.type)
-            }).filter((product) => {
-                return this.selectedBrandsId.includes(product.brand);
-            })
-        } else if (this.selectedBrandsId.length > 0) {
-            this.filteredProducts = this.products.filter((product) => {
-                return this.selectedBrandsId.includes(product.brand);
-            }).filter((product) => {
-                return this.selectedBrandsId.includes(product.brand);
-            })
-        */
-
-            /*
-            console.log(this.products.filter((product) => {
-                return this.selectedBrandsId.includes(product.brand);
-            }).filter((product) => {
-                return this.selectedBrandsId.includes(product.brand);
-            }));
-            */
-
-            /*
-           console.log(this.checkedTypes.filter((type) => {
-            return this.brands.includes(type.name)
-           }));
-           */
-
-           
         
     }
 

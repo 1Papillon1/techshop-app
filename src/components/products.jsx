@@ -107,6 +107,7 @@ useEffect(() => {
 
     const handleChecked = (e) => {
 
+        store.filterState = true;
         let value = '';
         let indexOf = 0;
 
@@ -127,34 +128,39 @@ useEffect(() => {
                 
                 
             }
+
+        
             
 
         store.setFiltering();
+        store.setSearched();
+
+        console.log(store.filteredProducts.length);
         
-
-
+        
         
     }
 
     const handleBrandChange = (values) => {
-        
+        store.filterState = true;
+
         store.selectedBrands = toJS(values);
         store.selectedBrandsId = (toJS(store.selectedBrands)).map((prod) => {
             return prod.id;
         });
 
         store.setFiltering();
-        
+        store.setSearched();
         
 
-        
+       
 
         
 
         store.indexOfLastRec = store.currentPage*store.recordsPerPage;
         store.indexOfFirstRec = store.indexOfLastRec-store.recordsPerPage;
         
-        console.log(store.filteredProducts);
+        
         
     }
     
@@ -286,8 +292,12 @@ useEffect(() => {
                 )}
 
                 
+                
 
-                {!loading && store.products.length > 0 && store.filteredProducts.length === 0 && (
+                {!loading && store.products.length > 0 && store.filteredProducts.length == 0 && (
+                    
+                    
+
                     <div className='flex flex--2'>
                         
                         {store.currentProducts.map(product => (

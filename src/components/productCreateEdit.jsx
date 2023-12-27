@@ -99,12 +99,16 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
     setProductBrand([]);
     setProductTypeOption('desktop');
     
-
+    store.setFiltering();
+    toggleAside();
+    
     };
 
     const handleUpdateProduct = () => {
         store.updateProduct();
+        store.setFiltering();
         toggleAside();
+        
     }
 
     
