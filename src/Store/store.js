@@ -49,6 +49,7 @@ class Store {
 
     // For pagination
     currentProducts = null;
+    currentProductsFiltered = null;
     currentPage = 1;
     recordsPerPage = 4;
     nPages = 0;
@@ -92,6 +93,7 @@ class Store {
             getProductsData: action,
             getProductsByBrand: action,
             assignBrandToProduct: action,
+
 
             createProduct: action,
             deleteProduct: action,
@@ -149,35 +151,64 @@ class Store {
 
     get sorted() {
         
-
+        if (this.filteredProducts.length > 0) {
             if (this.sortOption === "descendingName") {
-                this.sortedProducts = this.products.sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
                 (
-                    a.name < b.name ? -1 : 1
+                    a.name > b.name ? -1 : 1
                 ))
             } else if (this.sortOption === "ascendingPrice") {
 
-                this.sortedProducts = this.products.sort((a, b) => 
-                (
-                    a.price > b.price ? -1 : 1
-                ))
-
-            } else if (this.sortOption === "descendingPrice") {
-                
-                this.sortedProducts = this.products.sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
                 (
                     a.price < b.price ? -1 : 1
                 ))
 
+            } else if (this.sortOption === "descendingPrice") {
+                
+                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                (
+                    a.price > b.price ? -1 : 1
+                ))
+
             } else {
-                this.sortedProducts = this.products.sort((a, b) => 
+                this.sortedProducts = this.filteredProducts.slice().sort((a, b) => 
+                (
+                    a.name < b.name ? -1 : 1
+                ))
+            }
+            console.log(this.sortedProducts);
+            this.filteredProducts = this.sortedProducts;
+            this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+        } else {
+            if (this.sortOption === "descendingName") {
+                this.sortedProducts = this.products.slice().sort((a, b) => 
                 (
                     a.name > b.name ? -1 : 1
                 ))
-            }
+            } else if (this.sortOption === "ascendingPrice") {
 
-            this.products = this.sortedProducts;
-        
+                this.sortedProducts = this.products.slice().sort((a, b) => 
+                (
+                    a.price < b.price ? -1 : 1
+                ))
+
+            } else if (this.sortOption === "descendingPrice") {
+                
+                this.sortedProducts = this.products.slice().sort((a, b) => 
+                (
+                    a.price > b.price ? -1 : 1
+                ))
+
+            } else {
+                this.sortedProducts = this.products.slice().sort((a, b) => 
+                (
+                    a.name < b.name ? -1 : 1
+                ))
+            }
+            this.products = this.sortedProducts
+        }
+            
     }
 
     setSorted() {
@@ -186,23 +217,85 @@ class Store {
     
 
     get filtering() {
-        if (this.checkedTypes.length > 0 && this.selectedBrandsId.length > 0) {
+        if (this.checkedTypes.length > 0) {
+
+            
+            
+            this.filteredProducts = this.products.filter((product) => {
+                
+                return this.checkedTypes.includes(product.type);
+            
+            });
+
+            if (this.selectedBrandsId.length > 0) {
+                this.filteredProducts = this.filteredProducts.filter((product) => {
+            
+                    return this.selectedBrandsId.includes(product.brand);
+                
+                });
+            }
+
+            
+
+        } else if (this.selectedBrandsId.length > 0) {
+
+            if (this.checkedTypes.length > 0) {
+                this.filteredProducts = this.products.filter((product) => {
+            
+                    return this.selectedBrandsId.includes(product.brand);
+                
+                });
+            } else {
+            this.filteredProducts = this.products.filter((product) => {
+            
+                return this.selectedBrandsId.includes(product.brand);
+                
+            });
+            console.log(this.selectedBrandsId);
+            }
+        
+        } else {
+            this.filteredProducts = [];
+        }
+        
+        this.currentPage = 1;
+        this.indexOfLastRec = this.currentPage*this.recordsPerPage;
+        this.indexOfFirstRec = this.indexOfLastRec-this.recordsPerPage;
+        
+        this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+
+        
+        
+        /* else if (this.checkedTypes.length > 0) {
             this.filteredProducts = this.products.filter((product) => {
                 return this.checkedTypes.includes(product.type)
             }).filter((product) => {
                 return this.selectedBrandsId.includes(product.brand);
             })
-        } else if (this.checkedTypes.length > 0) {
-            this.filteredProducts = this.products.filter((product) => {
-                return this.checkedTypes.includes(product.type)
-            })
         } else if (this.selectedBrandsId.length > 0) {
             this.filteredProducts = this.products.filter((product) => {
                 return this.selectedBrandsId.includes(product.brand);
+            }).filter((product) => {
+                return this.selectedBrandsId.includes(product.brand);
             })
-        } else {
-            this.filteredProducts = [];
-        }
+        */
+
+            /*
+            console.log(this.products.filter((product) => {
+                return this.selectedBrandsId.includes(product.brand);
+            }).filter((product) => {
+                return this.selectedBrandsId.includes(product.brand);
+            }));
+            */
+
+            /*
+           console.log(this.checkedTypes.filter((type) => {
+            return this.brands.includes(type.name)
+           }));
+           */
+
+           
+        
     }
 
     setFiltering() {
@@ -291,13 +384,13 @@ class Store {
         this.showStoreDetails();
     }
 
-    updateProduct(currentProduct) {
-        const productIndexAtId = this.products.findIndex((product) => product.id === currentProduct.id);
+    updateProduct() {
+        const productIndexAtId = this.products.findIndex((product) => product.id === this.currentProduct.id);
         
-            this.products[productIndexAtId].name = currentProduct.name;
-            this.products[productIndexAtId].price = currentProduct.price;
-            this.products[productIndexAtId].brand = currentProduct.brand;
-            this.products[productIndexAtId].type = currentProduct.type;
+            this.products[productIndexAtId].name = this.currentProduct.name;
+            this.products[productIndexAtId].price = this.currentProduct.price;
+            this.products[productIndexAtId].brand = this.currentProduct.brand;
+            this.products[productIndexAtId].type = this.currentProduct.type;
         
     }
 

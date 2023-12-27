@@ -18,13 +18,16 @@
 .pagination__link {
   text-decoration: none;
   padding: 5px;
-  border-left: 1px solid black;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-left: 1px solid #303030;
+  border-top: 1px solid #303030;
+  border-bottom: 1px solid #303030;
   color: white;
-  font-family: Cambria;
+  font-family: "Urbanist", sans-serif;
   font-size: 20px;
 }
 .pagination__link--last {
-  border-right: 1px solid black;
+  border-right: 1px solid #303030;
+}
+.pagination__link--active {
+  background-color: #703BF7;
 }/*# sourceMappingURL=pagination.css.map */

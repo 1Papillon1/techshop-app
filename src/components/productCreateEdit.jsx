@@ -102,8 +102,9 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
 
     };
 
-    const handleUpdateProduct = (currentProduct) => {
-        store.updateProduct()
+    const handleUpdateProduct = () => {
+        store.updateProduct();
+        toggleAside();
     }
 
     
@@ -262,7 +263,7 @@ return(
                                     
                                 </select>
 
-                                <button className='button button--form button--form--primary' onClick={toggleAside}>Update Product</button>
+                                <button className='button button--form button--form--primary' onClick={() => handleUpdateProduct(currentProduct)}>Update Product</button>
                                 
                                 
                 

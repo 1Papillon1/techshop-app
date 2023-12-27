@@ -30,7 +30,7 @@ function Products({ store, showAside, setShowAside }) {
     const [data, setData] = useState([])
 
     // define store products
-    const { brands, brandNames, selectedBrand, products,  sortedProducts, currentProducts } = store;
+    const { brands, brandNames, selectedBrand, selectedBrandsId, products,  sortedProducts, currentProducts, filteredProducts, currentProductsFiltered } = store;
 
 
     // filtering 
@@ -57,10 +57,11 @@ const memoizedCallback = useCallback(
         
         store.currentProducts = (toJS(store.products)).slice(store.indexOfFirstRec, store.indexOfLastRec);
         store.nPages = Math.ceil(store.products.length / store.recordsPerPage);
+        
         }
     }, 500)
     },
-    [products, sortedProducts, brands]
+    [products, sortedProducts, brands, currentProducts, filteredProducts, currentProductsFiltered]
 )
 
 
@@ -69,7 +70,7 @@ useEffect(() => {
 
     
     memoizedCallback();
-}, [products, sortedProducts, brands, currentProducts])
+}, [products, sortedProducts, brands, currentProducts, filteredProducts, currentProductsFiltered])
 
     
     
@@ -112,21 +113,25 @@ useEffect(() => {
 
             if (e.target.checked) {
             value = e.target.value;
-            store.checkedTypes.push(value);
-            console.log(store.checkedTypes);
+            store.checkedTypes.push(value)
+            
+
             } else {
+
                 value = e.target.value;
                 indexOf = store.checkedTypes.indexOf(value);
 
-                store.checkedTypes.slice(indexOf, 1);
+
+
+                store.checkedTypes.splice(indexOf, 1);
+                
                 
             }
-        
+            
 
         store.setFiltering();
         
 
-       
 
         
     }
@@ -137,14 +142,19 @@ useEffect(() => {
         store.selectedBrandsId = (toJS(store.selectedBrands)).map((prod) => {
             return prod.id;
         });
-        
-        /*
-        store.filteredProducts = store.products.filter((product) => {
-            return store.selectedBrandsId.includes(product.brand);
-        });
-        */
 
         store.setFiltering();
+        
+        
+
+        
+
+        
+
+        store.indexOfLastRec = store.currentPage*store.recordsPerPage;
+        store.indexOfFirstRec = store.indexOfLastRec-store.recordsPerPage;
+        
+        console.log(store.filteredProducts);
         
     }
     
@@ -302,6 +312,7 @@ useEffect(() => {
                             </div>
                         ))}
 
+
                 <Pagination 
                         
                         nPages={store.nPages}
@@ -310,6 +321,7 @@ useEffect(() => {
                             store.currentPage=currentPage;
                             store.indexOfLastRec = store.currentPage*store.recordsPerPage;
                             store.indexOfFirstRec = store.indexOfLastRec-store.recordsPerPage;
+                            
                             store.currentProducts = (toJS(store.products)).slice(store.indexOfFirstRec, store.indexOfLastRec);
                             
                             
@@ -323,8 +335,8 @@ useEffect(() => {
                          <div className='flex flex--2'>
                             
 
-                            {store.filteredProducts.map(product => {
-                                return (
+                            {store.currentProductsFiltered.map(product => (
+                                
                                     <div className='flex__box flex__box--list'>
                                         <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
                                         <h2 className='flex__box__title'>{product.name}</h2>
@@ -343,8 +355,28 @@ useEffect(() => {
                                             
                                         </div>
                                     </div>
-                                )
-                            })}
+                                
+                            ))}
+                        
+                        
+                        {store.filteredProducts.length > 4 && (
+
+                        <Pagination 
+                        
+                            nPages={store.nPages = Math.ceil(store.filteredProducts.length / store.recordsPerPage)}
+                            currentPage={store.currentPage}
+                            setCurrentPage={(currentPage) => {
+                            store.currentPage=currentPage;
+                            store.indexOfLastRec = store.currentPage*store.recordsPerPage;
+                            store.indexOfFirstRec = store.indexOfLastRec-store.recordsPerPage;
+                            store.currentProductsFiltered = (toJS(store.filteredProducts)).slice(store.indexOfFirstRec, store.indexOfLastRec);
+                            
+                            }}
+                        />
+                            
+                        )}
+                
+
 
                         </div>
                     )}

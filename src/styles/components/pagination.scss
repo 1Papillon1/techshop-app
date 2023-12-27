@@ -2,6 +2,13 @@
     pagination.scss
 */
 
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+$boxBackgroundColor: #1A1A1A;
+$boxBorderColor: #303030;
+$activeColor: #703BF7;
 
 .pagination {
     width: 100%;
@@ -19,14 +26,17 @@
     &__link {
         text-decoration: none;
         padding: 5px;
-        border-left: 1px solid black;
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
+        border-left: 1px solid $boxBorderColor;
+        border-top: 1px solid $boxBorderColor;
+        border-bottom: 1px solid $boxBorderColor;
         color: white;
-        font-family: Cambria;
+        font-family: $fontFamily;
         font-size: 20px;
         &--last {
-            border-right: 1px solid black;
+            border-right: 1px solid $boxBorderColor;
+        }
+        &--active {
+            background-color: $activeColor;
         }
     }
 }
