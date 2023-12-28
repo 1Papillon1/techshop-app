@@ -9,12 +9,37 @@ $fontFamily: 'Urbanist', sans-serif;
 $boxBackgroundColor: #1A1A1A;
 $boxBorderColor: #303030;
 
+/*
 
+$sidebarBackgrondColor: #262626;
+$textFontColor: #fcfcfc;
+$fontFamily: 'Urbanist', sans-serif;
+
+$boxBackgroundColor: #1A1A1A;
+$boxBorderColor: #303030;
+
+.aside {
+    width: 30%;
+    box-sizing: border-box;
+    position: fixed;
+    float: right;
+    right: 0;
+    height: 100vh;
+    padding: 1rem;
+    background-color: $sidebarBackgrondColor;
+    z-index: 3;
+
+
+*/
 
 
 .sidebar {
-    position: absolute;
+    box-sizing: border-box;
+    position: fixed;
+    float: left;
+    top: 0;
     width: 20%;
+    height: 100vh;
     background-color: $sidebarBackgrondColor;
     padding: 0.5rem;
     &__box {
@@ -49,4 +74,5 @@ $boxBorderColor: #303030;
 
         }
     }
+    
 }

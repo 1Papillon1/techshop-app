@@ -6,6 +6,7 @@
   box-sizing: border-box;
   position: fixed;
   float: right;
+  top: 0;
   right: 0;
   height: 100vh;
   padding: 1rem;

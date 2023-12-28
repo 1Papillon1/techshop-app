@@ -357,8 +357,8 @@ class Store {
 
     createProduct(product = {id: small_id, name: "", price: "", type: "",  brand: null}) {
         
-        this.oldProducts.push(product);
         this.products.push(product);
+        this.oldProducts = this.products;
         console.log('New product in the store!');
         console.log(product);
         this.showStoreDetails();
@@ -371,15 +371,14 @@ class Store {
             this.products[productIndexAtId].price = this.currentProduct.price;
             this.products[productIndexAtId].brand = this.currentProduct.brand;
             this.products[productIndexAtId].type = this.currentProduct.type;
+        this.oldProducts = this.products;
         
     }
 
     deleteProduct(productId) {
         const productIndexAtId = this.products.findIndex((product) => product.id === productId);
         this.products.splice(productIndexAtId, 1);
-        const oldProductIndexAtId = this.oldProducts.findIndex((product) => product.id === productId);
-        this.oldProducts.splice(oldProductIndexAtId, 1);
-        console.log(productIndexAtId);
+        this.oldProducts = this.products;
         console.log('Product deleted from the store!')
         this.showStoreDetails();
       }

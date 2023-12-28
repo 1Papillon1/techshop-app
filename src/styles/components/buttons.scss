@@ -38,6 +38,20 @@ $createButtonBackgroundColor : green;
             padding: 10px 20px;
         }
     }
+
+    &--sidebar {
+        position: absolute;
+        float: left;
+        margin-top: 4rem;
+        margin-left: 2rem;
+        background-color: #703BF7;
+        border: 1px solid $buttonBorderColor;
+        border-radius: 5px;
+        &:hover {
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+    }
     
     &--logo {
         background-color: rgba(93, 93, 93, 0);
