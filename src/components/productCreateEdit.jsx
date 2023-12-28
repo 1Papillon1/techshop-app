@@ -91,8 +91,7 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
             store.createProduct({ id: small_id, name, price, type, brand: store.selectedBrandId });
         
 
-    console.log("Product added to Store. Brand: " + brand + "Name: ", name, ", Price: $" + price + " type: " + type);
-    console.log(store.products);
+    
 
     setProductName('');
     setProductPrice('');

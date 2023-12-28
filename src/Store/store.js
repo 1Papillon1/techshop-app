@@ -2,7 +2,7 @@ import { action, autorun, computed, makeObservable, observable, runInAction, con
 import firebase from "../services/firebase";
 import { toJS } from 'mobx';
 import { v4 as uuid } from 'uuid';
-import { toHaveDisplayValue } from "@testing-library/jest-dom/matchers";
+
 
 
 configure({
@@ -23,30 +23,38 @@ class Store {
     brands = [];
     products = [];
 
-    // For creating and editing
+    // creating and editing
     currentProduct = [];
     currentBrand = [];
     selectedBrand = [];
     selectedBrandId = 1;
     productActions = "";
 
-    // For filtering
-    brandIds = [];
-    selectedBrands = [];
+    // filtering & sorting
     filterState = false;
-    selectedBrandsId = [];
-    checkedTypes = [];
-
-
     oldProducts = [];
-    filteredProducts = [];
-    sortedProducts = [];
 
-    sortOption = "ascending";
+        // sorting
+        sortOption = "ascending";
+        sortedProducts = [];
+
+        // filter by
+        filteredProducts = [];
+        checkedTypes = [];
+        brandIds = [];
+        selectedBrands = [];
+        selectedBrandsId = [];
+
+        
+        
+        
+
+        // search
+        searchState = false;
+        searchValue = "";
+
 
     
-    searchState = false;
-    searchValue = "";
 
     // For pagination
     currentProducts = null;
@@ -57,7 +65,7 @@ class Store {
     indexOfLastRec = 0;
     indexOfFirstRec = 0;
 
-    // const nPages = Math.ceil(store.products.length / recordsPerPage);
+    
     
 
     constructor () {
@@ -326,7 +334,7 @@ class Store {
         }
     }
 
-    // get product by brand id
+
     getProductsByBrand(id) {
         return this.products.filter((product) => {
             return product.brand && product.brand.id === id;
@@ -334,7 +342,7 @@ class Store {
     }
 
     
-    // assign brand using brand id to a pet using petId
+
     assignBrandToProduct(brandId, productId) {
         const productIndexAtId = this.products.findIndex((product) => product.id === productId);
         const brandIndexAtId = this.brands.findIndex((product) => product.id === brandId);
@@ -349,8 +357,10 @@ class Store {
 
     createProduct(product = {id: small_id, name: "", price: "", type: "",  brand: null}) {
         
+        this.oldProducts.push(product);
         this.products.push(product);
         console.log('New product in the store!');
+        console.log(product);
         this.showStoreDetails();
     }
 
@@ -367,6 +377,8 @@ class Store {
     deleteProduct(productId) {
         const productIndexAtId = this.products.findIndex((product) => product.id === productId);
         this.products.splice(productIndexAtId, 1);
+        const oldProductIndexAtId = this.oldProducts.findIndex((product) => product.id === productId);
+        this.oldProducts.splice(oldProductIndexAtId, 1);
         console.log(productIndexAtId);
         console.log('Product deleted from the store!')
         this.showStoreDetails();
@@ -376,8 +388,6 @@ class Store {
 
     
 
-
-    // GET ALL DATA
 
     
 

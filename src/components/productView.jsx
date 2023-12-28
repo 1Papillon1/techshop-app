@@ -1,7 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { toJS } from 'mobx';
-import { v4 as uuid } from 'uuid';
+import React, { useState } from "react";
 import { observer } from "mobx-react";
 
 import productImage from '../images/products/desktop/list-desktop.jpg';
@@ -11,17 +8,10 @@ import { Link } from "react-router-dom";
 
 function ProductView({ store }) {
 
-    // states
-    const [loading, setLoading] = useState(true);
+
 
     
     let { currentProduct } = store;
-
-    console.log(currentProduct);
-
-    
-
-
 
     
 
