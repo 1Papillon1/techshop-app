@@ -31,21 +31,26 @@ class Store {
     productActions = "";
 
     // filtering & sorting
-    filterState = false;
     oldProducts = [];
+    filterState = false;
 
         // sorting
+        sortState = false;
         sortOption = "ascending";
         sortedProducts = [];
 
         // filter by
-        filteredProducts = [];
         checkedTypes = [];
+
         brandIds = [];
         selectedBrands = [];
         selectedBrandsId = [];
 
         
+        minPrice = 0;
+        minPriceValue = 0;
+        maxPrice =  1000;
+        maxPriceValue = 1000;
         
         
 
@@ -58,10 +63,10 @@ class Store {
 
     // For pagination
     currentProducts = null;
-    currentProductsFiltered = null;
+
     currentPage = 1;
     recordsPerPage = 4;
-    nPages = 0;
+    nPages = 1;
     indexOfLastRec = 0;
     indexOfFirstRec = 0;
 
@@ -76,19 +81,24 @@ class Store {
             products: observable,
             currentProduct: observable,
             oldProducts: observable,
-            filteredProducts: observable,
             sortedProducts: observable,
             productActions: observable,
             sortOption: observable,
             searchValue: observable,
             searchState: observable,
+            sortState: observable,
 
             brands: observable,
+
             selectedBrands: observable,
             selectedBrandId: observable,
-            checkedTypes: observable,
             brandIds: observable,
             selectedBrandsId: observable,
+
+            minPrice: observable,
+            maxPrice: observable,
+            minPriceValue: observable,
+            maxPriceValue: observable,
 
             currentProducts: observable,
 
@@ -96,7 +106,8 @@ class Store {
             totalProducts: computed,
             storeDetails: computed,
             filtering: computed,
-
+            
+            
 
 
             getProductsData: action,
@@ -120,7 +131,6 @@ class Store {
         });
         
         autorun(() => {
-            this.setSorted();
             this.setPagination();
         })
     }
@@ -131,108 +141,79 @@ class Store {
     getCurrentProductsData() {
         this.indexOfLastRec = this.currentPage*this.recordsPerPage;
         this.indexOfFirstRec = this.indexOfLastRec-this.recordsPerPage;
-        this.currentProducts = this.products;
-        
-        
+        this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+
+       
     }
 
     
 
     
-
+// search
     get searched() {
-
-        
-
         if (this.searchState) {
             
-            if (this.filteredProducts.length > 0 && this.searchValue.length > 0) {
-                this.filteredProducts = this.filteredProducts.filter((item) => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
-                this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
-                
-            } else {
             this.products = this.oldProducts.filter((item) => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
-            
-            }
-            
+            this.nPages = Math.ceil(this.products.length / this.recordsPerPage);
+            this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+
         } else if (!this.searchState) {
             this.products = this.oldProducts;
+            this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
             this.setFiltering();
-            console.log(this.filteredProducts.map((item) => {
-                return item.name;
-            }));
+            
         }
-
-        
     }
-
     setSearched() {
         return this.searched;
     }
 
-
+// sort
     get sorted() {
+        this.sortState = true;
         
-        if (this.filteredProducts.length > 0) {
             if (this.sortOption === "descendingName") {
-                this.sortedProducts = this.filteredProducts.sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.name > b.name ? -1 : 1
                 ))
+                
             } else if (this.sortOption === "ascendingPrice") {
 
-                this.sortedProducts = this.filteredProducts.sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.price < b.price ? -1 : 1
                 ))
+                
 
             } else if (this.sortOption === "descendingPrice") {
                 
-                this.sortedProducts = this.filteredProducts.sort((a, b) => 
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.price > b.price ? -1 : 1
                 ))
+                
 
-            } else {
-                this.sortedProducts = this.filteredProducts.sort((a, b) => 
+                
+            } else if (this.sortOption === "ascendingName") {
+                this.sortedProducts = this.products.sort((a, b) => 
                 (
                     a.name < b.name ? -1 : 1
                 ))
+                
+            } else {
+                this.sortState = false;
             }
-
-            this.filteredProducts = this.sortedProducts;
             
-            this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
-        } else {
-            if (this.sortOption === "descendingName") {
-                this.sortedProducts = this.products.sort((a, b) => 
-                (
-                    a.name > b.name ? -1 : 1
-                ))
-            } else if (this.sortOption === "ascendingPrice") {
-
-                this.sortedProducts = this.products.sort((a, b) => 
-                (
-                    a.price < b.price ? -1 : 1
-                ))
-
-            } else if (this.sortOption === "descendingPrice") {
-                
-                this.sortedProducts = this.products.sort((a, b) => 
-                (
-                    a.price > b.price ? -1 : 1
-                ))
-
-            } else {
-                this.sortedProducts = this.products.sort((a, b) => 
-                (
-                    a.name < b.name ? -1 : 1
-                ))
-            }
-            this.products = this.sortedProducts
-
+            
+            
+            this.products = this.sortedProducts;
+            
+            this.nPages = Math.ceil(this.products.length / this.recordsPerPage);
             this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
-        }
+
+
+            
             
     }
 
@@ -240,39 +221,43 @@ class Store {
         return this.sorted;
     }
     
-
+// filter by
     get filtering() {
         
 
-        if (this.selectedBrandsId.length === 0 && this.checkedTypes.length === 0) {
+        if (this.selectedBrandsId.length === 0 && this.checkedTypes.length === 0 && this.minPriceValue === this.minPrice && this.maxPriceValue === this.maxPrice) {
             this.filterState = false;
-        }
+        } else if (this.filterState) {
 
-        if (this.filterState) {
-
-        this.filteredProducts = this.products.filter((product) =>
+        this.products = this.products.filter((product) =>
             
             (this.checkedTypes.length === 0 || this.checkedTypes.includes(product.type)) &&
-            (this.selectedBrandsId.length === 0 || this.selectedBrandsId.includes(product.brand))
-            
+            (this.selectedBrandsId.length === 0 || this.selectedBrandsId.includes(product.brand)) &&
+            (product.price > this.minPriceValue && product.price < this.maxPriceValue)
         )
+
+        
         }
 
-       
-        else {
-            this.filteredProducts = [];
-
+        else if (this.filterState === false) {
+            this.products = this.oldProducts;
+            
         }
 
-        if (this.sortedProducts.length > 0) {
+        
+        
+
+        if (this.sortState) {
             this.setSorted();
         }
         
         this.currentPage = 1;
         this.indexOfLastRec = this.currentPage*this.recordsPerPage;
         this.indexOfFirstRec = this.indexOfLastRec-this.recordsPerPage;
+        this.nPages = Math.ceil(this.products.length / this.recordsPerPage);
+        this.currentProducts = (toJS(this.products)).slice(this.indexOfFirstRec, this.indexOfLastRec);
         
-        this.currentProductsFiltered = (toJS(this.filteredProducts)).slice(this.indexOfFirstRec, this.indexOfLastRec);
+        
         
     }
 
@@ -317,8 +302,6 @@ class Store {
             });
             
         })
-        
-        
         
     }
 
@@ -371,16 +354,18 @@ class Store {
             this.products[productIndexAtId].price = this.currentProduct.price;
             this.products[productIndexAtId].brand = this.currentProduct.brand;
             this.products[productIndexAtId].type = this.currentProduct.type;
-        this.oldProducts = this.products;
         
+        this.searchValue = "";
+        this.products = this.oldProducts;
     }
 
     deleteProduct(productId) {
-        const productIndexAtId = this.products.findIndex((product) => product.id === productId);
+        const productIndexAtId = this.oldProducts.findIndex((product) => product.id === productId);
         this.products.splice(productIndexAtId, 1);
         this.oldProducts = this.products;
         console.log('Product deleted from the store!')
         this.showStoreDetails();
+        this.setSorted();
       }
 
 

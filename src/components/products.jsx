@@ -3,7 +3,7 @@ import { toJS } from 'mobx';
 import Pagination from "./pagination";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import Select from "react-select";
+
 
 
 import desktopImage from '../images/products/desktop/list-desktop.jpg';
@@ -30,7 +30,7 @@ function Products({ store, showSidebar, setShowSidebar, showAside, setShowAside 
     const [data, setData] = useState([])
 
     // define store products
-    const { oldProducts, brands, brandNames, selectedBrand, selectedBrandsId, products,  sortedProducts, currentProducts, filteredProducts, currentProductsFiltered } = store;
+    const { oldProducts, brands, products,  sortedProducts, currentProducts } = store;
 
 
     // filtering 
@@ -51,17 +51,33 @@ const memoizedCallback = useCallback(
             
 
 
-        if (currentProducts) {
+        if (store.currentProducts) {
         setLoading(false);
         store.selectedBrand = store.brands[0];
         
+        store.maxPriceValue = store.oldProducts.sort((a, b) => 
+        (
+            a.price > b.price ? -1 : 1
+        ))[0].price;
+        
+        store.maxPrice = store.oldProducts.sort((a, b) => 
+        (
+            a.price > b.price ? -1 : 1
+        ))[0].price;
+
+
+        
         store.currentProducts = (toJS(store.products)).slice(store.indexOfFirstRec, store.indexOfLastRec);
         store.nPages = Math.ceil(store.products.length / store.recordsPerPage);
+
+        
+        
+        
         
         }
     }, 500)
     },
-    [oldProducts, products, sortedProducts, brands, currentProducts, filteredProducts, currentProductsFiltered]
+    [oldProducts, brands]
 )
 
 
@@ -70,7 +86,7 @@ useEffect(() => {
 
     
     memoizedCallback();
-}, [oldProducts, products, sortedProducts, brands, currentProducts, filteredProducts, currentProductsFiltered])
+}, [oldProducts, brands])
 
     
     
@@ -145,11 +161,7 @@ useEffect(() => {
                 next product you buy.</h3>
             </div>
 
-            {!showSidebar && (
-                
-                    <button className="button button--sidebar" onClick={toggleSidebar}>Filtering</button>
-                
-            )}
+            
             <div className='options'>
                <input 
                className='options__input' 
@@ -157,11 +169,15 @@ useEffect(() => {
                onChange={handleInputChange}
                type="text" 
                placeholder="Search For A Product" />
-               
             </div>
             
             <button className='button button--primary button--primary--right' onClick={toggleAsideCreate}>Add Product</button>
             
+            <div className='options options--secondary'>
+                {!showSidebar && (
+                    <button className="button button--sidebar" onClick={toggleSidebar}>Filter</button>
+                )}
+            </div>
             
             <div className='container'>
                 
@@ -176,7 +192,7 @@ useEffect(() => {
                 
                 
 
-                {!loading && store.products.length > 0 && store.filteredProducts.length == 0 && (
+                {!loading && store.products.length > 0 && (
                     
                     
 
@@ -223,55 +239,7 @@ useEffect(() => {
                         )}
 
                 
-                    {!loading && store.filteredProducts.length > 0 && (
-                         <div className='flex flex--2'>
-                            
-
-                            {store.currentProductsFiltered.map(product => (
-                                
-                                    <div className='flex__box flex__box--list'>
-                                        <img className='flex__box__image' src={desktopImage} alt="image did not load" srcset="" />
-                                        <h2 className='flex__box__title'>{product.name}</h2>
-                                        <h3 className='flex__box__subtitle'>€{product.price}</h3>
-        
-                                        <div className='flex__box__footer'>
-                                            <Link to={{pathname: "/products/product"}}>
-                                                <button className='flex__box__button' onClick={() => {
-                                                    store.currentProduct = product;
-                                                }}>
-                                                    View
-                                                </button>
-                                                
-                                            
-                                            </Link>
-                                            
-                                        </div>
-                                    </div>
-                                
-                            ))}
-                        
-                        
-                        {store.filteredProducts.length > 4 && (
-
-                        <Pagination 
-                        
-                            nPages={store.nPages = Math.ceil(store.filteredProducts.length / store.recordsPerPage)}
-                            currentPage={store.currentPage}
-                            setCurrentPage={(currentPage) => {
-                            store.currentPage=currentPage;
-                            store.indexOfLastRec = store.currentPage*store.recordsPerPage;
-                            store.indexOfFirstRec = store.indexOfLastRec-store.recordsPerPage;
-                            store.currentProductsFiltered = (toJS(store.filteredProducts)).slice(store.indexOfFirstRec, store.indexOfLastRec);
-                            
-                            }}
-                        />
-                            
-                        )}
-                
-
-
-                        </div>
-                    )}
+                    
 
             </div>
 

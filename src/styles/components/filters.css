@@ -6,6 +6,7 @@ div.css-13cymwt-control {
   color: #fcfcfc;
   box-shadow: #303030;
   border-color: #303030;
+  z-index: 3;
 }
 
 div.css-1dimb5e-singleValue {
@@ -41,6 +42,7 @@ div.css-1nmdiq5-menu {
 div.css-1nmdiq5-menu div {
   border: #303030;
   background-color: #1A1A1A;
+  z-index: 3;
 }
 div.css-1nmdiq5-menu div:hover {
   border: 1px solid #303030;

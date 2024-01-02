@@ -105,8 +105,9 @@ function ProductCreateEdit({ store, showAside, setShowAside }) {
 
     const handleUpdateProduct = () => {
         store.updateProduct();
-        store.setFiltering();
         toggleAside();
+        
+        store.setFiltering();
         
     }
 

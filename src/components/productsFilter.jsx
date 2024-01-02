@@ -1,27 +1,16 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
 import Select from "react-select";
-
-import { Link } from "react-router-dom";
+import MultiRangeSlider from "multi-range-slider-react";
 import { toJS } from "mobx";
 
 
 
 function ProductsFilter({ store, showSidebar, setShowSidebar }) {
 
- 
-
- // sorting
- 
-
- const handleSort = (e) => {
-     store.sortOption = e.target.value;
-     
     
-     store.setSorted()
-     
-     console.log(store.currentProducts);
- }
+
+
 
  // filtering
 
@@ -55,8 +44,6 @@ function ProductsFilter({ store, showSidebar, setShowSidebar }) {
      store.setFiltering();
      store.setSearched();
 
-     console.log(store.filteredProducts.length);
-     
      
      
  }
@@ -84,10 +71,36 @@ function ProductsFilter({ store, showSidebar, setShowSidebar }) {
      
  }
 
+ const handlePriceChange = (slider) => {
+    store.filterState = true;
+    
+    store.minPriceValue = slider.minValue;
+    store.maxPriceValue = slider.maxValue;
+
+    
+    
+    store.setFiltering();
+    store.setSearched();
+ }
+
+  // sorting
+ 
+
+  const handleSort = (e) => {
+
+    store.sortOption = e.target.value;
+    
+   
+    store.setSorted();
+    
+    
+}
+
  // aside
  let toggleSidebar = () => {
     showSidebar = !showSidebar;
     setShowSidebar(showSidebar);
+    
 }
 
     
@@ -100,13 +113,13 @@ function ProductsFilter({ store, showSidebar, setShowSidebar }) {
                         <button className="button button--close" onClick={toggleSidebar}>
                             <img className="close" src={`./icons/close.png`} />
                         </button>
-                        <h2 className='sidebar__box__title'>Filtering</h2>
+                        <h2 className='sidebar__box__title'>Filter</h2>
 
                         <div className='sidebar__group'>
                             <label for='sorting' className='sidebar__box__label'>
                                 Sort By :
                             </label>
-                            <select value={store.sortOption} onChange={handleSort} className='sidebar__box__select' defaultValue='default' id='sorting' name='sorting'>
+                            <select onChange={handleSort} className='sidebar__box__select' defaultValue='default' id='sorting' name='sorting'>
                                 
                             <option className='sidebar__box__option' value="descendingName">Name (Desc)</option>
                             <option className='sidebar__box__option' value="ascendingName">Name (Asc)</option>
@@ -149,6 +162,26 @@ function ProductsFilter({ store, showSidebar, setShowSidebar }) {
                             joinValues
                             
                         />
+                        </div>
+
+                        <div className='sidebar__group'>
+                            <h2 className='sidebar__box__subtitle'>Price Range</h2>
+
+                            <MultiRangeSlider
+                                className='sidebar__box__range'
+			                    min={store.minPrice}
+                                max={~~store.maxPrice+1}
+                                step={5}
+                                minValue={0}
+                                maxValue={589}
+                                ruler={false}
+                                barInnerColor="#703BF7"
+                                barLeftColor="#999999"
+                                barRightColor="#999999"
+                                onChange={(slider) => handlePriceChange(slider)}
+                                
+		                    />
+
                         </div>
 
                     </div>

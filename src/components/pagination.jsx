@@ -9,11 +9,13 @@ function Pagination({ nPages, currentPage, setCurrentPage}) {
     const nextPage = () => {
         if (currentPage !== nPages) 
             setCurrentPage(currentPage + 1)
+
     }
 
     const prevPage = () => {
-        if (currentPage !== nPages) 
+        if (currentPage !== 1) 
             setCurrentPage(currentPage - 1)
+            
     }
 
     return (

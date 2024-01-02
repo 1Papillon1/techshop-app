@@ -29,13 +29,13 @@
   padding: 10px 20px;
 }
 .button--sidebar {
-  position: absolute;
-  float: left;
-  margin-top: 4rem;
-  margin-left: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 0rem;
+  margin-left: -0.5rem;
   background-color: #703BF7;
   border: 1px solid #303030;
   border-radius: 5px;
+  font-size: 18px;
 }
 .button--sidebar:hover {
   cursor: pointer;

@@ -17,7 +17,7 @@ div.css-13cymwt-control {
     color: $textFontColor;
     box-shadow: $boxBorderColor;
     border-color: $boxBorderColor;
-    
+    z-index: 3;
     
 }
 
@@ -54,9 +54,8 @@ div.css-1nmdiq5-menu {
 
 div.css-1nmdiq5-menu div {
     border: $boxBorderColor;
-    
-        
-        background-color: $boxBackgroundColor;
+    background-color: $boxBackgroundColor;
+    z-index: 3;
         &:hover {
         border: 1px solid $boxBorderColor;
         }

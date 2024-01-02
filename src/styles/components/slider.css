@@ -1,0 +1,12 @@
+/*
+    slider.scss
+*/
+div.multi-range-slider {
+  border: 1px solid #303030;
+  z-index: 0;
+  padding: 2rem;
+}
+
+.multi-range-slider .thumb {
+  z-index: 0;
+}/*# sourceMappingURL=slider.css.map */

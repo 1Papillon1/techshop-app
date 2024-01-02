@@ -20,4 +20,8 @@
   padding: 1rem;
   font-family: "Urbanist", sans-serif;
   font-size: 24px;
+}
+.options--secondary {
+  margin-top: 2rem;
+  background-color: #1A1A1A;
 }/*# sourceMappingURL=options.css.map */

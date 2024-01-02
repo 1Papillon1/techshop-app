@@ -6,7 +6,6 @@
   justify-content: space-between;
 }
 .flex--2 {
-  margin-top: 10rem;
   width: 49.5rem;
   flex-wrap: wrap;
 }

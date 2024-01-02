@@ -31,4 +31,9 @@ $inputFontFamily: 'Urbanist', sans-serif;
         font-family: $inputFontFamily;
         font-size: 24px;
     }
+    &--secondary {
+        margin-top: 2rem;
+        background-color: $inputBackgroundColor;
+        
+    }
 }
